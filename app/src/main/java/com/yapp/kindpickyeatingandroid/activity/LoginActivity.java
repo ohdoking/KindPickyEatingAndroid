@@ -78,7 +78,11 @@ public class LoginActivity extends Activity {
 
                         Log.i("test", response.body().getEmail() + " == " + edtID.getText().toString());
 
-                        if (response.body().getEmail().equals(edtID.getText().toString())) {
+                        String editTextValue = edtID.getText().toString();
+
+                        if(editTextValue.equals("")){
+                            Toast.makeText(LoginActivity.this, "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        }else if (response.body().getEmail().equals(editTextValue)) {
                             edtID.setText("");
                             edtPwd.setText("");
                             Intent in=new Intent(getApplicationContext(), MainActivity.class);
