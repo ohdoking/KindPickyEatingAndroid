@@ -11,5 +11,7 @@ public class KindApplication extends Application{
         @Override public void onCreate() {
             super.onCreate();
             Dexter.initialize(this);
+
+
         }
 }

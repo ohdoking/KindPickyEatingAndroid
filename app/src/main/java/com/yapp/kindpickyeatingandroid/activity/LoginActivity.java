@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -16,9 +17,19 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.yapp.kindpickyeatingandroid.R;
 import com.yapp.kindpickyeatingandroid.dto.MemData;
+import com.yapp.kindpickyeatingandroid.dto.UserDto;
 import com.yapp.kindpickyeatingandroid.memDataAccess.MemAst;
+import com.yapp.kindpickyeatingandroid.network.KindPickyEatingClient;
+import com.yapp.kindpickyeatingandroid.service.KindPickyEactingService;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends Activity {
     private ImageButton btnLGN;
@@ -32,6 +43,8 @@ public class LoginActivity extends Activity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+
+    KindPickyEactingService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,27 +62,38 @@ public class LoginActivity extends Activity {
         edtID = (EditText) findViewById(R.id.editID);
         edtPwd = (EditText) findViewById(R.id.edtPwd);
 
+        KindPickyEatingClient kindPickyEatingClient = new KindPickyEatingClient();
+
+        service = kindPickyEatingClient.getKindPickyEactingService();
+
         btnLGN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MemAst m = new MemAst();
-                try {
-                    MemData mem = m.execute(edtID.getText().toString(), edtPwd.getText().toString()).get();
 
-                    if (mem.getId().equals(edtID.getText().toString())) {
-                                   Intent in=new Intent(getApplicationContext(), MainActivity.class);
-                                  startActivity(in);
-                    } else {
+                Call<UserDto> mem = service.login(edtID.getText().toString(), edtPwd.getText().toString());
+
+                mem.enqueue(new Callback<UserDto>() {
+                    @Override
+                    public void onResponse(Call<UserDto> call, Response<UserDto> response) {
+
+                        Log.i("test", response.body().getEmail() + " == " + edtID.getText().toString());
+
+                        if (response.body().getEmail().equals(edtID.getText().toString())) {
+                            edtID.setText("");
+                            edtPwd.setText("");
+                            Intent in=new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(in);
+                        } else {
+                            Toast.makeText(LoginActivity.this, "아이디나 비밀번호를 다시 확인해주세요.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserDto> call, Throwable t) {
+
                         Toast.makeText(LoginActivity.this, "아이디나 비밀번호를 다시 확인해주세요.", Toast.LENGTH_SHORT).show();
                     }
-                    edtID.setText("");
-                    edtPwd.setText("");
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
+                });
 
             }
         });
