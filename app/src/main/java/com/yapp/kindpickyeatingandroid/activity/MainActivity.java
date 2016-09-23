@@ -1,5 +1,6 @@
 package com.yapp.kindpickyeatingandroid.activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -75,6 +76,8 @@ public class MainActivity extends AppCompatActivity
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.setStatusBarBackgroundColor(Color.WHITE);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -138,7 +141,6 @@ public class MainActivity extends AppCompatActivity
                 v.setBackgroundResource(R.drawable.recommend_button_clk);
 
                 break;
-
         }
 
     }
@@ -184,7 +186,8 @@ public class MainActivity extends AppCompatActivity
         Intent i;
         if (id == R.id.nav_map) {
         } else if (id == R.id.nav_favorite) {
-            i = new Intent(MainActivity.this,FavoriteActivity.class);
+//            i = new Intent(MainActivity.this,FavoriteActivity.class);
+            i = new Intent(MainActivity.this,RestaurantDetailActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_write) {
             i = new Intent(MainActivity.this,MenuActivity.class);

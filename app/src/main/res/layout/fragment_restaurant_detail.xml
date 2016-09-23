@@ -10,10 +10,25 @@
     <ImageView
         android:id="@+id/storeImage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="200dp"
         android:layout_marginTop="-100px"
         android:background="@drawable/detail_activity_view"
         />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="쌀롱딜리셔스"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="176명의 비건이 이곳을 다녀갔어요!"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="쌀롱딜리셔스"/>
 
 
 </LinearLayout>
