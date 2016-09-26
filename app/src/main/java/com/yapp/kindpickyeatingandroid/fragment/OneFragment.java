@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,12 +28,20 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.yapp.kindpickyeatingandroid.R;
 import com.yapp.kindpickyeatingandroid.activity.RestaurantDetailActivity;
 import com.yapp.kindpickyeatingandroid.dto.MapRestaurantDto;
+import com.yapp.kindpickyeatingandroid.dto.MapRestaurantListDto;
+import com.yapp.kindpickyeatingandroid.network.KindPickyEatingClient;
+import com.yapp.kindpickyeatingandroid.service.KindPickyEactingService;
 import com.yapp.kindpickyeatingandroid.util.GpsInfo;
 import com.yapp.kindpickyeatingandroid.util.LogsAdapter;
 import com.yapp.kindpickyeatingandroid.util.SampleAPIAS;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class OneFragment extends Fragment implements OnMapReadyCallback,GoogleMap.OnCameraChangeListener,
@@ -54,6 +63,8 @@ public class OneFragment extends Fragment implements OnMapReadyCallback,GoogleMa
     final static double myLongitude = 127.04381669999998;
 
     ArrayList<MapRestaurantDto> smp;
+    List<MapRestaurantDto> smp2;
+    KindPickyEactingService kindPickyEactingService;
 
 
     @Override
@@ -61,6 +72,8 @@ public class OneFragment extends Fragment implements OnMapReadyCallback,GoogleMa
                              Bundle savedInstanceState) {
 
 //		View view = inflater.inflate(R.layout.onefragmentragment, container, false);
+        KindPickyEatingClient kindPickyEatingClient = new KindPickyEatingClient();
+        kindPickyEactingService = kindPickyEatingClient.getKindPickyEactingService();
 
         if (view != null) {
             ViewGroup parent = (ViewGroup) view.getParent();
@@ -93,6 +106,35 @@ public class OneFragment extends Fragment implements OnMapReadyCallback,GoogleMa
         } catch (Exception e) {
 
         }
+
+        Call<MapRestaurantListDto> mapdt = kindPickyEactingService.map(myLat, myLon);
+        try {
+            mapdt.enqueue(new Callback<MapRestaurantListDto>() {
+
+
+                @Override
+                public void onResponse(Call<MapRestaurantListDto> call, Response<MapRestaurantListDto> response) {
+                    smp2 = response.body().getList();
+                    Log.i("tset",smp.get(0).getName());
+                    Log.i("tset",smp.get(1).getName());
+
+                }
+
+                @Override
+                public void onFailure(Call<MapRestaurantListDto> call, Throwable t) {
+                    Log.i("tset","fail");
+
+                }
+                // smp = s.execute(myLat, myLon).get();
+                //마커로 넘기기
+
+
+            });
+        } catch (Exception e) {
+
+        }
+
+
 
 //		mapFragment = (SupportMapFragment)getFragmentManager()
 //				.findFragmentById(R.id.map);
