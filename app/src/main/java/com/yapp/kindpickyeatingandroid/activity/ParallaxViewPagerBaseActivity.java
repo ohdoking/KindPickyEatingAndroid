@@ -9,6 +9,7 @@ import android.widget.AbsListView;
 import android.widget.ScrollView;
 
 import com.yapp.kindpickyeatingandroid.adapter.ParallaxFragmentPagerAdapter;
+import com.yapp.kindpickyeatingandroid.dto.RestaurantDetailDto;
 import com.yapp.kindpickyeatingandroid.util.ParallaxViewPagerChangeListener;
 import com.yapp.kindpickyeatingandroid.util.ScrollTabHolder;
 
@@ -33,7 +34,7 @@ public abstract class ParallaxViewPagerBaseActivity extends AppCompatActivity im
 
     protected abstract void initValues();
     protected abstract void scrollHeader(int scrollY);
-    protected abstract void setupAdapter();
+    protected abstract void setupAdapter(RestaurantDetailDto restaurantDetailDto);
 
     protected int getScrollYOfListView(AbsListView view) {
         View child = view.getChildAt(0);

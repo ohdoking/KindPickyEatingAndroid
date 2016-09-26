@@ -2,6 +2,7 @@ package com.yapp.kindpickyeatingandroid.service;
 
 import com.yapp.kindpickyeatingandroid.dto.JoinDto;
 import com.yapp.kindpickyeatingandroid.dto.MapRestaurantListDto;
+import com.yapp.kindpickyeatingandroid.dto.RestaurantDetailDto;
 import com.yapp.kindpickyeatingandroid.dto.ResultStateDto;
 import com.yapp.kindpickyeatingandroid.dto.UserDto;
 
@@ -31,5 +32,9 @@ public interface KindPickyEactingService {
 
     @GET("restaurant/list")
     Call<MapRestaurantListDto> map(@Query("latitute") String lat, @Query("longitute") String lon);
+
+    @GET("restaurant/detail/{id}")
+    Call<RestaurantDetailDto> restaurantDetailInfo(@Path("id") Long id);
+
 
 }

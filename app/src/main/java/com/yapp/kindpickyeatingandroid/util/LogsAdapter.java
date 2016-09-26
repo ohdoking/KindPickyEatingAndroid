@@ -65,7 +65,7 @@ public class LogsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
   @Override
   public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-    MapRestaurantDto log = logs.get(position);
+    final MapRestaurantDto log = logs.get(position);
 
     switch (holder.getItemViewType()) {
       case VIEW_TYPE_STRING:
@@ -74,6 +74,7 @@ public class LogsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
           public void onClick(View v) {
             // perform your operations here
             Intent i = new Intent(v.getContext(), RestaurantDetailActivity.class);
+            i.putExtra("restaurantId",log.getId());
             v.getContext().startActivity(i);
           }
         });

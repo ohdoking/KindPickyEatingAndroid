@@ -31,6 +31,7 @@
                 android:layout_marginRight="5dp"
                 android:background="@drawable/marker"/>
             <TextView
+                android:id="@+id/restaurantMenuList"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:textSize="15dp"
@@ -54,6 +55,7 @@
                 android:layout_marginRight="5dp"
                 android:background="@drawable/marker"/>
             <TextView
+                android:id="@+id/restaurantTel"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:textSize="15dp"
@@ -73,6 +75,7 @@
                 android:layout_marginRight="5dp"
                 android:background="@drawable/marker"/>
             <TextView
+                android:id="@+id/restaurantPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:textSize="15dp"
@@ -91,9 +94,13 @@
                 android:layout_marginRight="5dp"
                 android:background="@drawable/marker"/>
             <TextView
+                android:id="@+id/restaurantAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:textSize="15dp"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:gravity="center"
                 android:text="서울특별시 마포구 합정동 382-23"/>
         </LinearLayout>

@@ -1,5 +1,6 @@
 package com.yapp.kindpickyeatingandroid.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,21 +9,37 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.yapp.kindpickyeatingandroid.R;
 import com.yapp.kindpickyeatingandroid.adapter.ParallaxFragmentPagerAdapter;
+import com.yapp.kindpickyeatingandroid.dto.RestaurantDetailDto;
+import com.yapp.kindpickyeatingandroid.dto.UserDto;
 import com.yapp.kindpickyeatingandroid.fragment.DemoListViewFragment;
 import com.yapp.kindpickyeatingandroid.fragment.DemoRecyclerViewFragment;
 import com.yapp.kindpickyeatingandroid.fragment.FirstScrollViewFragment;
 import com.yapp.kindpickyeatingandroid.fragment.SecondScrollViewFragment;
+import com.yapp.kindpickyeatingandroid.network.KindPickyEatingClient;
+import com.yapp.kindpickyeatingandroid.service.KindPickyEactingService;
 import com.yapp.kindpickyeatingandroid.util.SlidingTabLayout;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
 
-    private ImageView mTopImage;
+    private ImageView restaurantImage;
+    private TextView restaurantName;
     private SlidingTabLayout mNavigBar;
+    public RestaurantDetailDto restaurantDetailDto;
+    public KindPickyEatingClient kindPickyEatingClient;
+    public KindPickyEactingService kindPickyEactingService;
+    public Long restaurantId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +48,41 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
 
         initValues();
 
-        mTopImage = (ImageView) findViewById(R.id.image);
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mNavigBar = (SlidingTabLayout) findViewById(R.id.navig_tab);
+        restaurantImage = (ImageView) findViewById(R.id.restaurantImage);
+        restaurantName = (TextView)findViewById(R.id.restaurantTitle);
         mHeader = findViewById(R.id.header);
 
+        Intent in = getIntent();
+        restaurantId = in.getExtras().getLong("restaurantId");
+
         if (savedInstanceState != null) {
-            mTopImage.setTranslationY(savedInstanceState.getFloat(IMAGE_TRANSLATION_Y));
+            restaurantImage.setTranslationY(savedInstanceState.getFloat(IMAGE_TRANSLATION_Y));
             mHeader.setTranslationY(savedInstanceState.getFloat(HEADER_TRANSLATION_Y));
         }
 
-        setupAdapter();
+        kindPickyEatingClient = new KindPickyEatingClient();
+        kindPickyEactingService = kindPickyEatingClient.getKindPickyEactingService();
+
+        Call<RestaurantDetailDto> callRestaurantDetailInfo = kindPickyEactingService.restaurantDetailInfo(11L);
+
+        callRestaurantDetailInfo.enqueue(new Callback<RestaurantDetailDto>() {
+            @Override
+            public void onResponse(Call<RestaurantDetailDto> call, Response<RestaurantDetailDto> response) {
+                Log.i("test1",response.body().getName());
+                restaurantName.setText(response.body().getName());
+                Glide.with(getApplicationContext()).load(response.body().getImage()).into(restaurantImage);
+                setupAdapter(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<RestaurantDetailDto> call, Throwable t) {
+
+            }
+        });
+
+
     }
 
     @Override
@@ -56,15 +97,15 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putFloat(IMAGE_TRANSLATION_Y, mTopImage.getTranslationY());
+        outState.putFloat(IMAGE_TRANSLATION_Y, restaurantImage.getTranslationY());
         outState.putFloat(HEADER_TRANSLATION_Y, mHeader.getTranslationY());
         super.onSaveInstanceState(outState);
     }
 
     @Override
-    protected void setupAdapter() {
+    protected void setupAdapter(RestaurantDetailDto restaurantDetailDto) {
         if (mAdapter == null) {
-            mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mNumFragments);
+            mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mNumFragments, restaurantDetailDto);
         }
 
         mViewPager.setAdapter(mAdapter);
@@ -77,7 +118,7 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
     protected void scrollHeader(int scrollY) {
         float translationY = Math.max(-scrollY, mMinHeaderTranslation);
         mHeader.setTranslationY(translationY);
-        mTopImage.setTranslationY(-translationY / 3);
+        restaurantImage.setTranslationY(-translationY / 3);
     }
 
 //    private int getActionBarHeight() {
@@ -98,9 +139,11 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
 //    }
 
     private static class ViewPagerAdapter extends ParallaxFragmentPagerAdapter {
+        RestaurantDetailDto restaurantDetailDto;
 
-        public ViewPagerAdapter(FragmentManager fm, int numFragments) {
+        public ViewPagerAdapter(FragmentManager fm, int numFragments, RestaurantDetailDto restaurantDetailDto) {
             super(fm, numFragments);
+            this.restaurantDetailDto = restaurantDetailDto;
         }
 
         @Override
@@ -108,7 +151,7 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
             Fragment fragment;
             switch (position) {
                 case 0:
-                    fragment = FirstScrollViewFragment.newInstance(0);
+                    fragment = FirstScrollViewFragment.newInstance(0,restaurantDetailDto);
                     break;
 
                 case 1:

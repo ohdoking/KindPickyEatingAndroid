@@ -22,7 +22,7 @@
             android:layout_height="@dimen/imageview_height"
             android:orientation="vertical">
             <ImageView
-                android:id="@+id/image"
+                android:id="@+id/restaurantImage"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:src="@drawable/scenery"
