@@ -71,36 +71,44 @@ public class JoinUsCk extends Activity implements RadioGroup.OnCheckedChangeList
         b9 = (RadioButton) findViewById(R.id.radioButton23);
 //        b10 = (RadioButton) findViewById(R.id.radioButton24);
 
+        rgVeg1.clearCheck();
+        rgVeg1.setOnCheckedChangeListener(listener1);
+        rgVeg2.clearCheck();
+        rgVeg2.setOnCheckedChangeListener(listener2);
+
         m = new JoinDto();
         Intent in = getIntent();
         m.setPassword(in.getExtras().getString("pwd"));
         m.setNickname(in.getExtras().getString("nm"));
         m.setEmail(in.getExtras().getString("eml"));
 
-
-
-//        Log.i("ohdoking",rgVeg.getCheckedRadioButtonId()+"");
-//
-        //      radioN();
-       /* int i=0;
-        if(m.getRg().toString().equals("rgVeg1"))
-        {i=1;}else if(m.getRg().toString().equals("rgVeg2"))
-        {i=2;}
-
-
-            switch (i){
-                case 1:
-                    rgVeg1.setOnCheckedChangeListener(this);
-                    break;
-                case 2:
-                    rgVeg2.setOnCheckedChangeListener(this);
-                    break;
-            }*/
-        rgVeg1.setOnCheckedChangeListener(this);
-        rgVeg2.setOnCheckedChangeListener(this);
         rgRel.setOnCheckedChangeListener(this);
         btnckEvent();
     }
+
+    private RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
+
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                rgVeg2.setOnCheckedChangeListener(null);
+                rgVeg2.clearCheck();
+                rgVeg2.setOnCheckedChangeListener(listener2);
+            }
+        }
+    };
+
+    private RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
+
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                rgVeg1.setOnCheckedChangeListener(null);
+                rgVeg1.clearCheck();
+                rgVeg1.setOnCheckedChangeListener(listener1);
+            }
+        }
+    };
 
     public void btnckEvent() {
 
