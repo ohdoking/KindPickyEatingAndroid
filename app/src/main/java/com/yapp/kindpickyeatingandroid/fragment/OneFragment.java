@@ -107,32 +107,7 @@ public class OneFragment extends Fragment implements OnMapReadyCallback,GoogleMa
 
         }
 
-        Call<MapRestaurantListDto> mapdt = kindPickyEactingService.map(myLat, myLon);
-        try {
-            mapdt.enqueue(new Callback<MapRestaurantListDto>() {
 
-
-                @Override
-                public void onResponse(Call<MapRestaurantListDto> call, Response<MapRestaurantListDto> response) {
-                    smp2 = response.body().getList();
-                    Log.i("tset",smp.get(0).getName());
-                    Log.i("tset",smp.get(1).getName());
-
-                }
-
-                @Override
-                public void onFailure(Call<MapRestaurantListDto> call, Throwable t) {
-                    Log.i("tset","fail");
-
-                }
-                // smp = s.execute(myLat, myLon).get();
-                //마커로 넘기기
-
-
-            });
-        } catch (Exception e) {
-
-        }
 
 
 
@@ -154,30 +129,60 @@ public class OneFragment extends Fragment implements OnMapReadyCallback,GoogleMa
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap map) {
+        final GoogleMap googleMap = map;
         logsRecyclerView = (RecyclerView) view.findViewById(R.id.logs);
         ((LinearLayoutManager) logsRecyclerView.getLayoutManager()).setReverseLayout(true);
         logsRecyclerView.setAdapter(adapter);
 
+        Call<MapRestaurantListDto> mapdt = kindPickyEactingService.map(myLat, myLon);
+        try {
+            mapdt.enqueue(new Callback<MapRestaurantListDto>() {
 
-        for( int i  = 0; i < smp.size(); i++){
-            BitmapDescriptor bitmapDescriptor;
-            if(0 == i%3){
-                bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.marker_clk);
-            }
-            else if(1 == i%3){
-                bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.marker1);
-            }
-            else{
-                bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.marker);
-            }
-            Marker marker = googleMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(smp.get(i).getLatatitue(), smp.get(i).getLongitute()))
-                    .title(smp.get(i).getName())
-                    .icon(bitmapDescriptor));
 
-            mHashMap.put(marker, i);
+                @Override
+                public void onResponse(Call<MapRestaurantListDto> call, Response<MapRestaurantListDto> response) {
+                    smp2 = response.body().getList();
+                    Log.i("tset",smp.get(0).getName());
+                    Log.i("tset",smp.get(1).getName());
+
+                    for( int i  = 0; i < smp2.size(); i++){
+                        BitmapDescriptor bitmapDescriptor;
+                        if(0 == i%3){
+                            bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.marker_clk);
+                        }
+                        else if(1 == i%3){
+                            bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.marker1);
+                        }
+                        else{
+                            bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.marker);
+                        }
+                        Marker marker = googleMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(smp.get(i).getLatatitue(), smp.get(i).getLongitute()))
+                                .title(smp.get(i).getName())
+                                .icon(bitmapDescriptor));
+
+                        mHashMap.put(marker, i);
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<MapRestaurantListDto> call, Throwable t) {
+                    Log.i("tset","fail");
+
+                }
+                // smp = s.execute(myLat, myLon).get();
+                //마커로 넘기기
+
+
+            });
+        } catch (Exception e) {
+
         }
+
+
+
 
 //        {
 //

@@ -65,7 +65,7 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
         kindPickyEatingClient = new KindPickyEatingClient();
         kindPickyEactingService = kindPickyEatingClient.getKindPickyEactingService();
 
-        Call<RestaurantDetailDto> callRestaurantDetailInfo = kindPickyEactingService.restaurantDetailInfo(11L);
+        Call<RestaurantDetailDto> callRestaurantDetailInfo = kindPickyEactingService.restaurantDetailInfo(restaurantId);
 
         callRestaurantDetailInfo.enqueue(new Callback<RestaurantDetailDto>() {
             @Override
