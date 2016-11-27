@@ -2,8 +2,6 @@ package com.yapp.kindpickyeatingandroid.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,24 +10,16 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.yapp.kindpickyeatingandroid.R;
-import com.yapp.kindpickyeatingandroid.dto.MemData;
 import com.yapp.kindpickyeatingandroid.dto.UserDto;
-import com.yapp.kindpickyeatingandroid.memDataAccess.MemAst;
-import com.yapp.kindpickyeatingandroid.network.KindPickyEatingClient;
+import com.yapp.kindpickyeatingandroid.network.KindPickyEatingServerClient;
 import com.yapp.kindpickyeatingandroid.service.KindPickyEactingService;
-
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends Activity {
     private ImageButton btnLGN;
@@ -62,7 +52,7 @@ public class LoginActivity extends Activity {
         edtID = (EditText) findViewById(R.id.editID);
         edtPwd = (EditText) findViewById(R.id.edtPwd);
 
-        KindPickyEatingClient kindPickyEatingClient = new KindPickyEatingClient();
+        KindPickyEatingServerClient kindPickyEatingClient = new KindPickyEatingServerClient(getApplicationContext());
 
         service = kindPickyEatingClient.getKindPickyEactingService();
 

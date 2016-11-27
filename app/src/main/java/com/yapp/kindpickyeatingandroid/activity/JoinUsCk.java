@@ -15,15 +15,10 @@ import android.widget.Toast;
 
 import com.yapp.kindpickyeatingandroid.R;
 import com.yapp.kindpickyeatingandroid.dto.JoinDto;
-import com.yapp.kindpickyeatingandroid.dto.MemDataPL;
 import com.yapp.kindpickyeatingandroid.dto.ResultStateDto;
-import com.yapp.kindpickyeatingandroid.memDataPL.MemAstPL;
 import com.yapp.kindpickyeatingandroid.memDataPL.MemPLAPIClient;
-import com.yapp.kindpickyeatingandroid.network.KindPickyEatingClient;
+import com.yapp.kindpickyeatingandroid.network.KindPickyEatingServerClient;
 import com.yapp.kindpickyeatingandroid.service.KindPickyEactingService;
-
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,7 +47,7 @@ public class JoinUsCk extends Activity implements RadioGroup.OnCheckedChangeList
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_ck);
 
-        KindPickyEatingClient kindPickyEatingClient = new KindPickyEatingClient();
+        KindPickyEatingServerClient kindPickyEatingClient = new KindPickyEatingServerClient(getApplicationContext());
         kindPickyEactingService = kindPickyEatingClient.getKindPickyEactingService();
         rgVeg1 = (RadioGroup) findViewById(R.id.rgVeg1);
         rgRel = (RadioGroup) findViewById(R.id.rgRel);

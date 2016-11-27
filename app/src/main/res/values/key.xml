@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="aws_api_url">http://52.199.131.103:8080/kindpickyeating/</string>
+    <string name="instagram_key">d9d7fd226d2649d8a0eac0ad8a518908</string>
+    <string name="naver_api_url">https://openapi.naver.com/v1/</string>
+    <string name="naver_client_key">OBoywCZKpkgVcLf1nEBa</string>
+    <string name="naver_secret_key">7aRjuGbToZ</string>
+</resources>

@@ -2,15 +2,10 @@ package com.yapp.kindpickyeatingandroid.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,12 +13,9 @@ import com.bumptech.glide.Glide;
 import com.yapp.kindpickyeatingandroid.R;
 import com.yapp.kindpickyeatingandroid.adapter.ParallaxFragmentPagerAdapter;
 import com.yapp.kindpickyeatingandroid.dto.RestaurantDetailDto;
-import com.yapp.kindpickyeatingandroid.dto.UserDto;
-import com.yapp.kindpickyeatingandroid.fragment.DemoListViewFragment;
 import com.yapp.kindpickyeatingandroid.fragment.DemoRecyclerViewFragment;
 import com.yapp.kindpickyeatingandroid.fragment.FirstScrollViewFragment;
-import com.yapp.kindpickyeatingandroid.fragment.SecondScrollViewFragment;
-import com.yapp.kindpickyeatingandroid.network.KindPickyEatingClient;
+import com.yapp.kindpickyeatingandroid.network.KindPickyEatingServerClient;
 import com.yapp.kindpickyeatingandroid.service.KindPickyEactingService;
 import com.yapp.kindpickyeatingandroid.util.SlidingTabLayout;
 
@@ -37,7 +29,7 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
     private TextView restaurantName;
     private SlidingTabLayout mNavigBar;
     public RestaurantDetailDto restaurantDetailDto;
-    public KindPickyEatingClient kindPickyEatingClient;
+    public KindPickyEatingServerClient kindPickyEatingClient;
     public KindPickyEactingService kindPickyEactingService;
     public Long restaurantId;
 
@@ -62,7 +54,7 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
             mHeader.setTranslationY(savedInstanceState.getFloat(HEADER_TRANSLATION_Y));
         }
 
-        kindPickyEatingClient = new KindPickyEatingClient();
+        kindPickyEatingClient = new KindPickyEatingServerClient(getApplicationContext());
         kindPickyEactingService = kindPickyEatingClient.getKindPickyEactingService();
 
         Call<RestaurantDetailDto> callRestaurantDetailInfo = kindPickyEactingService.restaurantDetailInfo(restaurantId);

@@ -1,8 +1,6 @@
 package com.yapp.kindpickyeatingandroid.fragment;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,7 +11,6 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,16 +23,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.yapp.kindpickyeatingandroid.R;
-import com.yapp.kindpickyeatingandroid.activity.RestaurantDetailActivity;
 import com.yapp.kindpickyeatingandroid.dto.MapRestaurantDto;
 import com.yapp.kindpickyeatingandroid.dto.MapRestaurantListDto;
-import com.yapp.kindpickyeatingandroid.network.KindPickyEatingClient;
+import com.yapp.kindpickyeatingandroid.network.KindPickyEatingServerClient;
 import com.yapp.kindpickyeatingandroid.service.KindPickyEactingService;
 import com.yapp.kindpickyeatingandroid.util.GpsInfo;
 import com.yapp.kindpickyeatingandroid.util.LogsAdapter;
-import com.yapp.kindpickyeatingandroid.util.SampleAPIAS;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -62,7 +56,6 @@ public class OneFragment extends Fragment implements OnMapReadyCallback,GoogleMa
     final static double myLatitude = 37.5102747;
     final static double myLongitude = 127.04381669999998;
 
-    ArrayList<MapRestaurantDto> smp;
     List<MapRestaurantDto> smp2;
     KindPickyEactingService kindPickyEactingService;
 
@@ -72,7 +65,7 @@ public class OneFragment extends Fragment implements OnMapReadyCallback,GoogleMa
                              Bundle savedInstanceState) {
 
 //		View view = inflater.inflate(R.layout.onefragmentragment, container, false);
-        KindPickyEatingClient kindPickyEatingClient = new KindPickyEatingClient();
+        KindPickyEatingServerClient kindPickyEatingClient = new KindPickyEatingServerClient(getActivity());
         kindPickyEactingService = kindPickyEatingClient.getKindPickyEactingService();
 
         if (view != null) {
@@ -93,23 +86,6 @@ public class OneFragment extends Fragment implements OnMapReadyCallback,GoogleMa
 //                getContext(),
 //                "당신의 위치 - \n위도: " +  myLatitude + "\n경도: " + myLongitude,
 //                Toast.LENGTH_LONG).show();
-
-        SampleAPIAS s = new SampleAPIAS();
-        try {
-            smp = s.execute(myLat, myLon).get();
-            //마커로 넘기기
-
-
-
-
-
-        } catch (Exception e) {
-
-        }
-
-
-
-
 
 //		mapFragment = (SupportMapFragment)getFragmentManager()
 //				.findFragmentById(R.id.map);
@@ -143,8 +119,6 @@ public class OneFragment extends Fragment implements OnMapReadyCallback,GoogleMa
                 @Override
                 public void onResponse(Call<MapRestaurantListDto> call, Response<MapRestaurantListDto> response) {
                     smp2 = response.body().getList();
-                    Log.i("tset",smp.get(0).getName());
-                    Log.i("tset",smp.get(1).getName());
 
                     for( int i  = 0; i < smp2.size(); i++){
                         BitmapDescriptor bitmapDescriptor;
@@ -158,8 +132,8 @@ public class OneFragment extends Fragment implements OnMapReadyCallback,GoogleMa
                             bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.marker);
                         }
                         Marker marker = googleMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(smp.get(i).getLatatitue(), smp.get(i).getLongitute()))
-                                .title(smp.get(i).getName())
+                                .position(new LatLng(smp2.get(i).getLatatitue(), smp2.get(i).getLongitute()))
+                                .title(smp2.get(i).getName())
                                 .icon(bitmapDescriptor));
 
                         mHashMap.put(marker, i);
@@ -224,7 +198,7 @@ public class OneFragment extends Fragment implements OnMapReadyCallback,GoogleMa
                 int pos = mHashMap.get(marker);
 
 //                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.marker);
-                appendLog(smp.get(pos));
+                appendLog(smp2.get(pos));
 //                appendBitmap(bm);
 //                String text = "[마커 클릭 이벤트] latitude ="
 //                        + marker.getPosition().latitude + ", longitude ="
