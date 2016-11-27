@@ -9,8 +9,8 @@ import retrofit2.http.Query;
 /**
  * Created by ohdok on 2016-11-27.
  */
-public interface KindPickyEactingNaverClient {
+public interface KindPickyEatingNaverService {
 
     @GET("search/blog.json")
-    Call<NaverSearchResult> map(@Query("query") String query);
+    Call<NaverSearchResult> getBlogInfo(@Query("query") String query);
 }

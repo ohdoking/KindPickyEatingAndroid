@@ -30,7 +30,9 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
     private SlidingTabLayout mNavigBar;
     public RestaurantDetailDto restaurantDetailDto;
     public KindPickyEatingServerClient kindPickyEatingClient;
-    public KindPickyEactingService kindPickyEactingService;
+    public KindPickyEatingServerService kindPickyEactingService;
+    public KIndPickyEatingNaverClient kindPickyEatingNaverClient;
+    public KindPickyEatingNaverService kindPickyEactingNaverService;
     public Long restaurantId;
 
     @Override
@@ -57,6 +59,12 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
         kindPickyEatingClient = new KindPickyEatingServerClient(getApplicationContext());
         kindPickyEactingService = kindPickyEatingClient.getKindPickyEactingService();
 
+        kindPickyEatingNaverClient = new KIndPickyEatingNaverClient(getApplicationContext());
+        kindPickyEactingNaverService = kindPickyEatingNaverClient.getKindPickyEactingService();
+
+         /*
+            server api 호출
+         */
         Call<RestaurantDetailDto> callRestaurantDetailInfo = kindPickyEactingService.restaurantDetailInfo(restaurantId);
 
         callRestaurantDetailInfo.enqueue(new Callback<RestaurantDetailDto>() {
@@ -66,6 +74,25 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
                 restaurantName.setText(response.body().getName());
                 Glide.with(getApplicationContext()).load(response.body().getImage()).into(restaurantImage);
                 setupAdapter(response.body());
+
+                 /*
+                    restaurant 이름을 받아서 Naver api 호출
+                 */
+                Call<NaverSearchResult> searchResult = kindPickyEactingNaverService.getBlogInfo(response.body().getName());
+
+                searchResult.enqueue(new Callback<NaverSearchResult>() {
+                    @Override
+                    public void onResponse(Call<NaverSearchResult> call, Response<NaverSearchResult> response) {
+                        Response<NaverSearchResult> response2 = response;
+                        Log.i("test123",response.body().getItems().get(0).getTitle() + " : " + response.body().getItems().get(0).getLink()+"");
+                        getBlogImage(response.body().getItems().get(1).getLink());
+                    }
+
+                    @Override
+                    public void onFailure(Call<NaverSearchResult> call, Throwable t) {
+
+                    }
+                });
             }
 
             @Override

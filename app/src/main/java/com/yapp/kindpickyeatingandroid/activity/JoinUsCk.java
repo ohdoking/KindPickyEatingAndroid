@@ -18,7 +18,7 @@ import com.yapp.kindpickyeatingandroid.dto.JoinDto;
 import com.yapp.kindpickyeatingandroid.dto.ResultStateDto;
 import com.yapp.kindpickyeatingandroid.memDataPL.MemPLAPIClient;
 import com.yapp.kindpickyeatingandroid.network.KindPickyEatingServerClient;
-import com.yapp.kindpickyeatingandroid.service.KindPickyEactingService;
+import com.yapp.kindpickyeatingandroid.service.KindPickyEatingServerService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,7 +38,7 @@ public class JoinUsCk extends Activity implements RadioGroup.OnCheckedChangeList
     // String str[]={"페스코","폴로","무관","무슬림","힌두교","사찰음식","무"};
     RadioButton b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10;
 
-    KindPickyEactingService kindPickyEactingService;
+    KindPickyEatingServerService kindPickyEactingService;
 
     public void onCreate(Bundle savedInstanceState) {
 

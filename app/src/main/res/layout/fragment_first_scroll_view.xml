@@ -104,6 +104,17 @@
                 android:gravity="center"
                 android:text="서울특별시 마포구 합정동 382-23"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+            <ListView
+                android:id="@+id/naverBlogInfo"
+                android:layout_width="match_parent"
+                android:layout_height="400dp">
+            </ListView>
+        </LinearLayout>
     </LinearLayout>
 
 </com.yapp.kindpickyeatingandroid.util.NotifyingScrollView>

@@ -15,7 +15,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.yapp.kindpickyeatingandroid.R;
 import com.yapp.kindpickyeatingandroid.dto.UserDto;
 import com.yapp.kindpickyeatingandroid.network.KindPickyEatingServerClient;
-import com.yapp.kindpickyeatingandroid.service.KindPickyEactingService;
+import com.yapp.kindpickyeatingandroid.service.KindPickyEatingServerService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,7 +34,7 @@ public class LoginActivity extends Activity {
      */
     private GoogleApiClient client;
 
-    KindPickyEactingService service;
+    KindPickyEatingServerService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

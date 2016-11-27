@@ -3,7 +3,7 @@ package com.yapp.kindpickyeatingandroid.network;
 import android.content.Context;
 
 import com.yapp.kindpickyeatingandroid.R;
-import com.yapp.kindpickyeatingandroid.service.KindPickyEactingService;
+import com.yapp.kindpickyeatingandroid.service.KindPickyEatingServerService;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -15,7 +15,7 @@ public class KindPickyEatingServerClient implements KindPickyEatingClient {
 
     private Context context;
     private String BASE_URL;
-    private KindPickyEactingService apiService;
+    private KindPickyEatingServerService apiService;
 
     public KindPickyEatingServerClient(Context context){
         this.context = context;
@@ -29,11 +29,11 @@ public class KindPickyEatingServerClient implements KindPickyEatingClient {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        apiService = retrofit.create(KindPickyEactingService.class);
+        apiService = retrofit.create(KindPickyEatingServerService.class);
 
     }
 
-    public KindPickyEactingService getKindPickyEactingService(){
+    public KindPickyEatingServerService getKindPickyEactingService(){
         return apiService;
     }
 }

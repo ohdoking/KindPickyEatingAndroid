@@ -1,6 +1,7 @@
 package com.yapp.kindpickyeatingandroid.dto;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ohdok on 2016-11-27.
@@ -10,7 +11,7 @@ public class NaverSearchResult {
     private Integer total;
     private Integer start;
     private Integer display;
-    private ArrayList<NaverSearchResultItem> item;
+    private List<NaverSearchResultItem> items;
 
     public Integer getTotal() {
         return total;
@@ -36,11 +37,11 @@ public class NaverSearchResult {
         this.display = display;
     }
 
-    public ArrayList<NaverSearchResultItem> getItem() {
-        return item;
+    public List<NaverSearchResultItem> getItems() {
+        return items;
     }
 
-    public void setItem(ArrayList<NaverSearchResultItem> item) {
-        this.item = item;
+    public void setItems(List<NaverSearchResultItem> item) {
+        this.items = item;
     }
 }

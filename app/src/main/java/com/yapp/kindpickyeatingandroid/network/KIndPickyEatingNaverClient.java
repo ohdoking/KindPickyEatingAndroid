@@ -3,7 +3,7 @@ package com.yapp.kindpickyeatingandroid.network;
 import android.content.Context;
 
 import com.yapp.kindpickyeatingandroid.R;
-import com.yapp.kindpickyeatingandroid.service.KindPickyEactingNaverClient;
+import com.yapp.kindpickyeatingandroid.service.KindPickyEatingNaverService;
 
 import java.io.IOException;
 
@@ -17,15 +17,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by ohdok on 2016-11-27.
  */
-public class KIndPickyEactingNaverClient implements KindPickyEatingClient {
+public class KIndPickyEatingNaverClient implements KindPickyEatingClient {
 
     private Context context;
     private String BASE_URL;
-    private KindPickyEactingNaverClient apiService;
+    private KindPickyEatingNaverService apiService;
     private String clientKey;
     private String secretKey;
 
-    public KIndPickyEactingNaverClient(Context context){
+    public KIndPickyEatingNaverClient(Context context){
         this.context = context;
         init();
     }
@@ -57,10 +57,10 @@ public class KIndPickyEactingNaverClient implements KindPickyEatingClient {
                 .client(client)
                 .build();
 
-        apiService = retrofit.create(KindPickyEactingNaverClient.class);
+        apiService = retrofit.create(KindPickyEatingNaverService.class);
     }
 
-    public KindPickyEactingNaverClient getKindPickyEactingService(){
+    public KindPickyEatingNaverService getKindPickyEactingService(){
         return apiService;
     }
 }

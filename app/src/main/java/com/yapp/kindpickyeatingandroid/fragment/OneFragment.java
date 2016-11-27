@@ -26,7 +26,7 @@ import com.yapp.kindpickyeatingandroid.R;
 import com.yapp.kindpickyeatingandroid.dto.MapRestaurantDto;
 import com.yapp.kindpickyeatingandroid.dto.MapRestaurantListDto;
 import com.yapp.kindpickyeatingandroid.network.KindPickyEatingServerClient;
-import com.yapp.kindpickyeatingandroid.service.KindPickyEactingService;
+import com.yapp.kindpickyeatingandroid.service.KindPickyEatingServerService;
 import com.yapp.kindpickyeatingandroid.util.GpsInfo;
 import com.yapp.kindpickyeatingandroid.util.LogsAdapter;
 
@@ -57,7 +57,7 @@ public class OneFragment extends Fragment implements OnMapReadyCallback,GoogleMa
     final static double myLongitude = 127.04381669999998;
 
     List<MapRestaurantDto> smp2;
-    KindPickyEactingService kindPickyEactingService;
+    KindPickyEatingServerService kindPickyEactingService;
 
 
     @Override
