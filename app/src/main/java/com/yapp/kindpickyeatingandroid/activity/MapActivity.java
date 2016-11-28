@@ -1,11 +1,14 @@
 package com.yapp.kindpickyeatingandroid.activity;
 
 import android.app.ActionBar;
+import android.app.SearchManager;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -38,7 +41,7 @@ import retrofit2.Response;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnCameraChangeListener,
         GoogleMap.OnMapClickListener, GoogleMap.OnCameraMoveListener,
-        GoogleMap.OnInfoWindowClickListener {
+        GoogleMap.OnInfoWindowClickListener, SearchView.OnQueryTextListener {
 
     private GpsInfo gps;
     private String myLat;
@@ -77,10 +80,34 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void initActionbar(){
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(R.layout.activity_map_actionbar);
         View view =getSupportActionBar().getCustomView();
+
+
+
+
+
+        SearchManager searchManager = (SearchManager)
+                getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
+
+        searchView.setSearchableInfo(searchManager.
+                getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                return false;
+            }
+        });
+        searchView.setOnQueryTextListener(this);
+        searchView.setIconifiedByDefault(true);
+        searchView.setQueryHint("원하는 이름의 식당을 검색해주세요");
+        searchView.setIconified(false);
+
+
+
 
         ImageButton filterBtn= (ImageButton)view.findViewById(R.id.action_bar_back);
 
@@ -91,12 +118,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        ImageButton searchBtn = (ImageButton)view.findViewById(R.id.action_bar_forward);
+//        ImageButton searchBtn = (ImageButton)view.findViewById(R.id.action_bar_forward);
 
-        searchBtn.setOnClickListener(new View.OnClickListener() {
+        searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"검색창",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"검색창",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -217,6 +244,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void appendBitmap(Bitmap bitmap) {
         adapter.addBitmap(bitmap);
         logsRecyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 
 //    @Override

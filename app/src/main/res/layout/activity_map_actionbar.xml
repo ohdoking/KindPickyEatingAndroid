@@ -30,15 +30,17 @@
             android:layout_weight="1"
             />
 
-        <ImageButton
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+        <android.support.v7.widget.SearchView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:iconifiedByDefault="false"
             android:src="@android:drawable/ic_menu_search"
-            android:id="@+id/action_bar_forward"
+            android:id="@+id/searchView"
             android:layout_gravity="center_vertical"
             android:background="@android:color/transparent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
+
 
 
     </TableRow>

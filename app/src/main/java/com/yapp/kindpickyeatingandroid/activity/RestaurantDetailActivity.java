@@ -109,7 +109,6 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
 
     private void initActionbar() {
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(R.layout.activity_restaurant_detail_actionbar);
         View view = getSupportActionBar().getCustomView();
