@@ -104,7 +104,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         searchView.setOnQueryTextListener(this);
         searchView.setIconifiedByDefault(true);
         searchView.setQueryHint("원하는 이름의 식당을 검색해주세요");
-        searchView.setIconified(false);
+        searchView.setIconified(true);
 
 
 
