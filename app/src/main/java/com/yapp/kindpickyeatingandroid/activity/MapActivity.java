@@ -1,24 +1,20 @@
-package com.yapp.kindpickyeatingandroid.fragment;
+package com.yapp.kindpickyeatingandroid.activity;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
+import android.app.ActionBar;
 import android.graphics.Bitmap;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.InflateException;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -40,14 +36,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
-public class OneFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnCameraChangeListener,
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnCameraChangeListener,
         GoogleMap.OnMapClickListener, GoogleMap.OnCameraMoveListener,
         GoogleMap.OnInfoWindowClickListener {
 
-    SupportMapFragment mapFragment;
-    SupportMapFragment fragment;
-    private static View view;
     private GpsInfo gps;
     private String myLat;
     private String myLon;
@@ -64,66 +56,56 @@ public class OneFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initActionbar();
+        setContentView(R.layout.activity_map);
 
-//		View view = inflater.inflate(R.layout.onefragmentragment, container, false);
-        KindPickyEatingServerClient kindPickyEatingClient = new KindPickyEatingServerClient(getActivity());
+        KindPickyEatingServerClient kindPickyEatingClient = new KindPickyEatingServerClient(getApplicationContext());
         kindPickyEactingService = kindPickyEatingClient.getKindPickyEactingService();
 
-        if (view != null) {
-            ViewGroup parent = (ViewGroup) view.getParent();
-            if (parent != null)
-                parent.removeView(view);
-        }
-        try {
-            view = inflater.inflate(R.layout.onefragment, container, false);
-        } catch (InflateException e) {
-        /* map is already there, just return view as it is */
-        }
 
         myLat = String.valueOf(myLatitude);
         myLon = String.valueOf(myLongitude);
 
-//        Toast.makeText(
-//                getContext(),
-//                "당신의 위치 - \n위도: " +  myLatitude + "\n경도: " + myLongitude,
-//                Toast.LENGTH_LONG).show();
-
-//		mapFragment = (SupportMapFragment)getFragmentManager()
-//				.findFragmentById(R.id.map);
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
 
-        FragmentManager fm = getChildFragmentManager();
-        fragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
-        if (fragment == null) {
-            fragment = SupportMapFragment.newInstance();
-            fm.beginTransaction().replace(R.id.map, fragment).commit();
-            fragment.getMapAsync(OneFragment.this);
+    }
 
-        }
+    private void initActionbar(){
 
-        return view;
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.activity_map_actionbar);
+        View view =getSupportActionBar().getCustomView();
+
+        ImageButton filterBtn= (ImageButton)view.findViewById(R.id.action_bar_back);
+
+        filterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"필터창",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        ImageButton searchBtn = (ImageButton)view.findViewById(R.id.action_bar_forward);
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"검색창",Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
         final GoogleMap googleMap = map;
-
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-
-        googleMap.setMyLocationEnabled(true);
-        logsRecyclerView = (RecyclerView) view.findViewById(R.id.logs);
+        logsRecyclerView = (RecyclerView) findViewById(R.id.logs);
         ((LinearLayoutManager) logsRecyclerView.getLayoutManager()).setReverseLayout(true);
         logsRecyclerView.setAdapter(adapter);
 
@@ -174,42 +156,12 @@ public class OneFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
 
 
-//        {
-//
-//            @Override
-//            public boolean onMarkerClick(Marker arg0) {
-//                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.marker);
-//                appendBitmap(bm);
-//                return true;
-//            }
-//
-//        });
-
-
-
-//        googleMap.addMarker(new MarkerOptions()
-//                .position(new LatLng(37.4629101, -122.244909))
-//                .title("LinkedIn")
-//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-//
-//        googleMap.addMarker(new MarkerOptions()
-//                .position(new LatLng(37.4629101, -122.2449094))
-//                .title("Facebook")
-//                .snippet("Facebook HQ: Menlo Park"))
-//                .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
-//
-//
-//        googleMap.addMarker(new MarkerOptions()
-//                .position(new LatLng(37.3092293, -122.1136845))
-//                .title("Apple"));
-
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myLatitude, myLongitude), 13));
 //        googleMap.setMyLocationEnabled(true);
 
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 
             public boolean onMarkerClick(Marker marker) {
-//                Toast.makeText(getContext(),marker+"",Toast.LENGTH_SHORT).show();
 
                 int pos = mHashMap.get(marker);
 
@@ -274,4 +226,3 @@ public class OneFragment extends Fragment implements OnMapReadyCallback, GoogleM
 //        return false;
 //    }
 }
-

@@ -82,9 +82,21 @@ public class InformationFragment extends ListViewFragment {
             @Override
             public void onResponse(Call<NaverSearchResult> call, Response<NaverSearchResult> response) {
                 Response<NaverSearchResult> response2 = response;
-                Log.i("test123", response.body().getItems().get(0).getTitle() + " : " + response.body().getItems().get(0).getLink() + "");
 
-                naverSearchResultListViewAdapter.addList(response.body().getItems());
+                if(response.body().getItems().size() != 0){
+                    naverSearchResultListViewAdapter.addList(response.body().getItems());
+                }
+                else{
+                    //list가 없는 경우에 검색된 데이터가 없습니다라는 임의의 데이터 추가하기
+                    List<NaverSearchResultItem> list = new ArrayList<NaverSearchResultItem>();
+                    NaverSearchResultItem naverSearchResultItem = new NaverSearchResultItem();
+                    naverSearchResultItem.setTitle("검색된 데이터가 없습니다");
+                    naverSearchResultItem.setDescription("");
+                    list.add(naverSearchResultItem);
+                    naverSearchResultListViewAdapter.addList(list);
+                }
+
+
             }
 
             @Override

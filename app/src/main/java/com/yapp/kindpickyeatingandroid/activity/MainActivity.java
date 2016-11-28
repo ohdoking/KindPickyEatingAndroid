@@ -114,9 +114,9 @@ public class MainActivity extends AppCompatActivity
             case FRAGMENT_ONE:
                 newFragment = new OneFragment();
                 break;
-            case FRAGMENT_TWO:
-                newFragment = new TwoFragment();
-                break;
+//            case FRAGMENT_TWO:
+//                newFragment = new TwoFragment();
+//                break;
 
             default:
                 Log.d(TAG, "Unhandle case");
@@ -135,12 +135,12 @@ public class MainActivity extends AppCompatActivity
                 fragmentReplace(mCurrentFragmentIndex);
                 v.setBackgroundResource(R.drawable.map_button_clk);
                 break;
-            case R.id.btn_recommend:
-                mCurrentFragmentIndex = FRAGMENT_TWO;
-                fragmentReplace(mCurrentFragmentIndex);
-                v.setBackgroundResource(R.drawable.recommend_button_clk);
-
-                break;
+//            case R.id.btn_recommend:
+//                mCurrentFragmentIndex = FRAGMENT_TWO;
+//                fragmentReplace(mCurrentFragmentIndex);
+//                v.setBackgroundResource(R.drawable.recommend_button_clk);
+//
+//                break;
         }
 
     }

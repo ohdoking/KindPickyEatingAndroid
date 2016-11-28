@@ -1,14 +1,25 @@
 package com.yapp.kindpickyeatingandroid.activity;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.yapp.kindpickyeatingandroid.R;
@@ -42,17 +53,21 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
     public KindPickyEatingServerService kindPickyEactingService;
     public Long restaurantId;
 
+    private RelativeLayout mRelativeLayout;
+
+    private PopupWindow mPopupWindow;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_detail);
-
+        initActionbar();
         initValues();
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mNavigBar = (SlidingTabLayout) findViewById(R.id.navig_tab);
         restaurantImage = (ImageView) findViewById(R.id.restaurantImage);
-        restaurantName = (TextView)findViewById(R.id.restaurantTitle);
+        restaurantName = (TextView) findViewById(R.id.restaurantTitle);
         mHeader = findViewById(R.id.header);
 
         Intent in = getIntent();
@@ -76,7 +91,7 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
         callRestaurantDetailInfo.enqueue(new Callback<RestaurantDetailDto>() {
             @Override
             public void onResponse(Call<RestaurantDetailDto> call, Response<RestaurantDetailDto> response) {
-                Log.i("test1",response.body().getName());
+                Log.i("test1", response.body().getName());
                 restaurantName.setText(response.body().getName());
                 Glide.with(getApplicationContext()).load(response.body().getImage()).into(restaurantImage);
                 setupAdapter(response.body());
@@ -89,6 +104,79 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
             }
         });
 
+
+    }
+
+    private void initActionbar() {
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.activity_restaurant_detail_actionbar);
+        View view = getSupportActionBar().getCustomView();
+
+        ImageButton backPage = (ImageButton) view.findViewById(R.id.backPage);
+        mRelativeLayout = (RelativeLayout) findViewById(R.id.parent_view);
+
+        backPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        });
+
+        ImageButton showInfo = (ImageButton) view.findViewById(R.id.showInfo);
+
+        //팝업 정보 노출
+        showInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                View customView = inflater.inflate(R.layout.activity_restaurant_detail_popup, null);
+
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                int width = size.x;
+                int height = size.y;
+
+                mPopupWindow = new PopupWindow(
+                        customView,
+                        width,
+                        height
+                );
+
+                // Set an elevation value for popup window
+                // Call requires API level 21
+                if (Build.VERSION.SDK_INT >= 21) {
+                    mPopupWindow.setElevation(5.0f);
+                }
+
+                // Get a reference for the custom view close button
+//            ImageButton closeButton = (ImageButton) customView.findViewById(R.id.ib_close);
+                ImageView imageView = (ImageView) customView.findViewById(R.id.tv);
+
+                // Set a click listener for the popup window close button
+//            closeButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    // Dismiss the popup window
+//                    mPopupWindow.dismiss();
+//                }
+//            });
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPopupWindow.dismiss();
+                    }
+                });
+                mPopupWindow.setBackgroundDrawable(null);
+                mPopupWindow.showAtLocation(mRelativeLayout, Gravity.FILL, 0, 0);
+
+
+            }
+        });
 
     }
 
@@ -160,12 +248,12 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
             Fragment fragment;
             switch (position) {
                 case 0:
-                    fragment = FirstScrollViewFragment.newInstance(0,restaurantDetailDto);
+                    fragment = FirstScrollViewFragment.newInstance(0, restaurantDetailDto);
                     break;
 
                 case 1:
 //                    fragment = DemoRecyclerViewFragment.newInstance(1);
-                    fragment = InformationFragment.newInstance(1,restaurantDetailDto, context);
+                    fragment = InformationFragment.newInstance(1, restaurantDetailDto, context);
 
                     break;
 
