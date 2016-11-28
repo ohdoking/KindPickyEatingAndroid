@@ -104,6 +104,17 @@
                 android:gravity="center"
                 android:text="서울특별시 마포구 합정동 382-23"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+            <fragment
+                android:id="@+id/detailMap"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.google.android.gms.maps.MapFragment" />
+        </LinearLayout>
     </LinearLayout>
 
 </com.yapp.kindpickyeatingandroid.util.NotifyingScrollView>

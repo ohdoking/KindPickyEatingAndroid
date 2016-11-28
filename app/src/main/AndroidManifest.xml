@@ -37,7 +37,8 @@
         </activity>
         <activity
             android:name=".activity.RestaurantDetailActivity"
-            android:label="@string/title_activity_restaurant_detail" />
+            android:label="@string/title_activity_restaurant_detail"
+            android:theme="@style/CustomTheme"/>
         <activity
             android:name=".activity.TutorialActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -50,7 +51,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBYDyT7_veQK0xWJH6JQUgy_2mxRx3ZlGo" />
+            android:value="@string/google_map_key" />
 
         <!--
      ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -61,8 +62,11 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".activity.FavoriteActivity" />
-        <activity android:name=".activity.MyProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activity.MyProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.MapActivity"
+            android:theme="@style/CustomTheme"></activity>
     </application>
 
 </manifest>

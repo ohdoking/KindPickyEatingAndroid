@@ -21,7 +21,7 @@ import retrofit2.http.Query;
 /**
  * Created by ohdok on 2016-09-15.
  */
-public interface KindPickyEactingService {
+public interface KindPickyEatingServerService {
 
     @FormUrlEncoded
     @POST("user/login")
