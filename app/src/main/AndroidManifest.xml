@@ -50,7 +50,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBYDyT7_veQK0xWJH6JQUgy_2mxRx3ZlGo" />
+            android:value="@string/google_map_key" />
 
         <!--
      ATTENTION: This was auto-generated to add Google Play services to your project for

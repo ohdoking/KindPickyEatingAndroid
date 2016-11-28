@@ -1,5 +1,6 @@
 package com.yapp.kindpickyeatingandroid.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,12 +13,20 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yapp.kindpickyeatingandroid.R;
 import com.yapp.kindpickyeatingandroid.adapter.ParallaxFragmentPagerAdapter;
+import com.yapp.kindpickyeatingandroid.dto.NaverSearchResult;
+import com.yapp.kindpickyeatingandroid.dto.NaverSearchResultItem;
 import com.yapp.kindpickyeatingandroid.dto.RestaurantDetailDto;
 import com.yapp.kindpickyeatingandroid.fragment.DemoRecyclerViewFragment;
 import com.yapp.kindpickyeatingandroid.fragment.FirstScrollViewFragment;
+import com.yapp.kindpickyeatingandroid.fragment.InformationFragment;
+import com.yapp.kindpickyeatingandroid.network.KIndPickyEatingNaverClient;
 import com.yapp.kindpickyeatingandroid.network.KindPickyEatingServerClient;
-import com.yapp.kindpickyeatingandroid.service.KindPickyEactingService;
+import com.yapp.kindpickyeatingandroid.service.KindPickyEatingNaverService;
+import com.yapp.kindpickyeatingandroid.service.KindPickyEatingServerService;
 import com.yapp.kindpickyeatingandroid.util.SlidingTabLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,8 +40,6 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
     public RestaurantDetailDto restaurantDetailDto;
     public KindPickyEatingServerClient kindPickyEatingClient;
     public KindPickyEatingServerService kindPickyEactingService;
-    public KIndPickyEatingNaverClient kindPickyEatingNaverClient;
-    public KindPickyEatingNaverService kindPickyEactingNaverService;
     public Long restaurantId;
 
     @Override
@@ -59,8 +66,7 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
         kindPickyEatingClient = new KindPickyEatingServerClient(getApplicationContext());
         kindPickyEactingService = kindPickyEatingClient.getKindPickyEactingService();
 
-        kindPickyEatingNaverClient = new KIndPickyEatingNaverClient(getApplicationContext());
-        kindPickyEactingNaverService = kindPickyEatingNaverClient.getKindPickyEactingService();
+
 
          /*
             server api 호출
@@ -75,24 +81,6 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
                 Glide.with(getApplicationContext()).load(response.body().getImage()).into(restaurantImage);
                 setupAdapter(response.body());
 
-                 /*
-                    restaurant 이름을 받아서 Naver api 호출
-                 */
-                Call<NaverSearchResult> searchResult = kindPickyEactingNaverService.getBlogInfo(response.body().getName());
-
-                searchResult.enqueue(new Callback<NaverSearchResult>() {
-                    @Override
-                    public void onResponse(Call<NaverSearchResult> call, Response<NaverSearchResult> response) {
-                        Response<NaverSearchResult> response2 = response;
-                        Log.i("test123",response.body().getItems().get(0).getTitle() + " : " + response.body().getItems().get(0).getLink()+"");
-                        getBlogImage(response.body().getItems().get(1).getLink());
-                    }
-
-                    @Override
-                    public void onFailure(Call<NaverSearchResult> call, Throwable t) {
-
-                    }
-                });
             }
 
             @Override
@@ -111,7 +99,7 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
         mMinHeaderTranslation = -mMinHeaderHeight + tabHeight;
 
-        mNumFragments = 2;
+        mNumFragments = 3;
     }
 
     @Override
@@ -124,7 +112,7 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
     @Override
     protected void setupAdapter(RestaurantDetailDto restaurantDetailDto) {
         if (mAdapter == null) {
-            mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mNumFragments, restaurantDetailDto);
+            mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mNumFragments, restaurantDetailDto, getApplicationContext());
         }
 
         mViewPager.setAdapter(mAdapter);
@@ -159,10 +147,12 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
 
     private static class ViewPagerAdapter extends ParallaxFragmentPagerAdapter {
         RestaurantDetailDto restaurantDetailDto;
+        Context context;
 
-        public ViewPagerAdapter(FragmentManager fm, int numFragments, RestaurantDetailDto restaurantDetailDto) {
+        public ViewPagerAdapter(FragmentManager fm, int numFragments, RestaurantDetailDto restaurantDetailDto, Context context) {
             super(fm, numFragments);
             this.restaurantDetailDto = restaurantDetailDto;
+            this.context = context;
         }
 
         @Override
@@ -174,7 +164,15 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
                     break;
 
                 case 1:
-                    fragment = DemoRecyclerViewFragment.newInstance(1);
+//                    fragment = DemoRecyclerViewFragment.newInstance(1);
+                    fragment = InformationFragment.newInstance(1,restaurantDetailDto, context);
+
+                    break;
+
+                case 2:
+                    fragment = DemoRecyclerViewFragment.newInstance(2);
+//                    fragment = InformationFragment.newInstance(2,restaurantDetailDto, context);
+
                     break;
 
                 default:
@@ -190,7 +188,10 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
                     return "식당 정보";
 
                 case 1:
-                    return "리뷰";
+                    return "네이버 블로그 리뷰";
+
+                case 2:
+                    return "인스타그램";
 
                 default:
                     throw new IllegalArgumentException("wrong position for the fragment in vehicle page");
