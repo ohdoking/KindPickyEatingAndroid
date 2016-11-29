@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.yapp.kindpickyeatingandroid.R;
@@ -18,7 +17,7 @@ import com.yapp.kindpickyeatingandroid.adapter.NaverSearchResultListViewAdapter;
 import com.yapp.kindpickyeatingandroid.dto.NaverSearchResult;
 import com.yapp.kindpickyeatingandroid.dto.NaverSearchResultItem;
 import com.yapp.kindpickyeatingandroid.dto.RestaurantDetailDto;
-import com.yapp.kindpickyeatingandroid.network.KIndPickyEatingNaverClient;
+import com.yapp.kindpickyeatingandroid.network.KindPickyEatingNaverClient;
 import com.yapp.kindpickyeatingandroid.service.KindPickyEatingNaverService;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class InformationFragment extends ListViewFragment {
     public RestaurantDetailDto restaurantDetailDto;
     public NaverSearchResultListViewAdapter naverSearchResultListViewAdapter;
 
-    public KIndPickyEatingNaverClient kindPickyEatingNaverClient;
+    public KindPickyEatingNaverClient kindPickyEatingNaverClient;
     public KindPickyEatingNaverService kindPickyEactingNaverService;
 
     public static Fragment newInstance(int position, RestaurantDetailDto restaurantDetailDto, Context context) {
@@ -54,7 +53,7 @@ public class InformationFragment extends ListViewFragment {
     public InformationFragment(Context context, RestaurantDetailDto restaurantDetailDto) {
         this.context = context;
         this.restaurantDetailDto = restaurantDetailDto;
-        kindPickyEatingNaverClient = new KIndPickyEatingNaverClient(context);
+        kindPickyEatingNaverClient = new KindPickyEatingNaverClient(context);
         kindPickyEactingNaverService = kindPickyEatingNaverClient.getKindPickyEactingService();
     }
 
@@ -118,17 +117,13 @@ public class InformationFragment extends ListViewFragment {
         });
 
 
+
+
         return view;
     }
 
     private void setAdapter() {
         if (getActivity() == null) return;
-
-        int size = 7;
-        String[] stringArray = new String[size];
-        for (int i = 0; i < size; ++i) {
-            stringArray[i] = "" + i;
-        }
 
         naverSearchResultListViewAdapter = new NaverSearchResultListViewAdapter(context);
 

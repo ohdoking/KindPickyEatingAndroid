@@ -1,6 +1,5 @@
 package com.yapp.kindpickyeatingandroid.activity;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
@@ -19,25 +18,18 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.yapp.kindpickyeatingandroid.R;
 import com.yapp.kindpickyeatingandroid.adapter.ParallaxFragmentPagerAdapter;
-import com.yapp.kindpickyeatingandroid.dto.NaverSearchResult;
-import com.yapp.kindpickyeatingandroid.dto.NaverSearchResultItem;
 import com.yapp.kindpickyeatingandroid.dto.RestaurantDetailDto;
 import com.yapp.kindpickyeatingandroid.fragment.DemoRecyclerViewFragment;
 import com.yapp.kindpickyeatingandroid.fragment.FirstScrollViewFragment;
 import com.yapp.kindpickyeatingandroid.fragment.InformationFragment;
-import com.yapp.kindpickyeatingandroid.network.KIndPickyEatingNaverClient;
+import com.yapp.kindpickyeatingandroid.fragment.InstagramInformatinFragment;
 import com.yapp.kindpickyeatingandroid.network.KindPickyEatingServerClient;
-import com.yapp.kindpickyeatingandroid.service.KindPickyEatingNaverService;
 import com.yapp.kindpickyeatingandroid.service.KindPickyEatingServerService;
 import com.yapp.kindpickyeatingandroid.util.SlidingTabLayout;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -257,7 +249,8 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
                     break;
 
                 case 2:
-                    fragment = DemoRecyclerViewFragment.newInstance(2);
+                    fragment = InstagramInformatinFragment.newInstance(2, restaurantDetailDto, context);
+//                    fragment = DemoRecyclerViewFragment.newInstance(2);
 //                    fragment = InformationFragment.newInstance(2,restaurantDetailDto, context);
 
                     break;

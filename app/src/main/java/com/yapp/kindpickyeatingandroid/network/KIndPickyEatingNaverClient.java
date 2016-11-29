@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by ohdok on 2016-11-27.
  */
-public class KIndPickyEatingNaverClient implements KindPickyEatingClient {
+public class KindPickyEatingNaverClient implements KindPickyEatingClient {
 
     private Context context;
     private String BASE_URL;
@@ -25,7 +25,7 @@ public class KIndPickyEatingNaverClient implements KindPickyEatingClient {
     private String clientKey;
     private String secretKey;
 
-    public KIndPickyEatingNaverClient(Context context){
+    public KindPickyEatingNaverClient(Context context){
         this.context = context;
         init();
     }
