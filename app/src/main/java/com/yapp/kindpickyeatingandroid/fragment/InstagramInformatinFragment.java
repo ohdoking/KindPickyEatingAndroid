@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
 import com.google.gson.Gson;
@@ -63,6 +64,8 @@ public class InstagramInformatinFragment extends RecyclerViewFragment {
     private ProgressDialog pDialog;
     private GalleryAdapter mAdapter;
 
+    TextView emptyView;
+
     public static Fragment newInstance(int position, RestaurantDetailDto restaurantDetailDto, Context context) {
         InstagramInformatinFragment fragment = new InstagramInformatinFragment(context, restaurantDetailDto);
         Bundle args = new Bundle();
@@ -90,6 +93,12 @@ public class InstagramInformatinFragment extends RecyclerViewFragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         RecyclerViewHeader header = (RecyclerViewHeader) view.findViewById(R.id.header);
 
+        emptyView = (TextView) view.findViewById(R.id.empty_view);
+
+// ...
+
+
+
         setupRecyclerView();
         header.attachTo(mRecyclerView);
 
@@ -103,9 +112,9 @@ public class InstagramInformatinFragment extends RecyclerViewFragment {
 //                Log.i("ohdoking-test",response2.errorBody().toString());
 
                 JsonArray datas = response2.body().getAsJsonArray("data");
-
+                images.clear();
                 if(datas.size() != 0){
-                    images.clear();
+
                     int size;
                     if(datas.size() > 6){
                         size = 6;
@@ -128,6 +137,16 @@ public class InstagramInformatinFragment extends RecyclerViewFragment {
                         images.add(image);
                     }
                     mAdapter.notifyDataSetChanged();
+                }
+                else{
+                    if (mAdapter.isEmpty()) {
+                        mRecyclerView.setVisibility(View.GONE);
+                        emptyView.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        mRecyclerView.setVisibility(View.VISIBLE);
+                        emptyView.setVisibility(View.GONE);
+                    }
                 }
 
             }

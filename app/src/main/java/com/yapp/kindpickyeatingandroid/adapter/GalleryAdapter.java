@@ -24,7 +24,11 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
  
     private List<InstagramImage> images;
     private Context mContext;
- 
+
+    public boolean isEmpty() {
+        return images.size() == 0;
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView thumbnail;
  

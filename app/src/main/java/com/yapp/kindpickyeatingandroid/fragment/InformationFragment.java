@@ -107,7 +107,7 @@ public class InformationFragment extends ListViewFragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String url = naverSearchResultListViewAdapter.getItem(i).getLink().replace("amp;","");
+                String url = naverSearchResultListViewAdapter.getItem(i-1).getLink().replace("amp;","");
                 Log.i("ohdoking-test",url);
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
