@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="header"/>
+            android:text=""/>
 
     </com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader>
 

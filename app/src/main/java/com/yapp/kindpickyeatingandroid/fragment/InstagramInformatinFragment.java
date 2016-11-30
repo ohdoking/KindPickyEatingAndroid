@@ -18,6 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.yapp.kindpickyeatingandroid.R;
 import com.yapp.kindpickyeatingandroid.adapter.GalleryAdapter;
 import com.yapp.kindpickyeatingandroid.adapter.RecyclerAdapter;
@@ -28,9 +32,12 @@ import com.yapp.kindpickyeatingandroid.dto.RestaurantDetailDto;
 import com.yapp.kindpickyeatingandroid.network.KindPickyEatingInstagramClient;
 import com.yapp.kindpickyeatingandroid.service.KindPickyEatingInstagramService;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -87,28 +94,39 @@ public class InstagramInformatinFragment extends RecyclerViewFragment {
         header.attachTo(mRecyclerView);
 
         Log.i("ohdoking-test","dodo");
-        Call<InstagramHashTagResult> searchResult = kindPickyEatingInstagramService.searchHashtagRecent(restaurantDetailDto.getName());
+        Call<JsonObject> searchResult = kindPickyEatingInstagramService.searchHashtagRecent(restaurantDetailDto.getName().replace(" ",""));
 
-        searchResult.enqueue(new Callback<InstagramHashTagResult>() {
+        searchResult.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<InstagramHashTagResult> call, Response<InstagramHashTagResult> response) {
-                Response<InstagramHashTagResult> response2 = response;
-                Log.i("ohdoking-test",response2.errorBody().toString());
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Response<JsonObject> response2 = response;
+//                Log.i("ohdoking-test",response2.errorBody().toString());
 
-                Log.i("ohdoking-test",response2.body().toString());
+                JsonArray datas = response2.body().getAsJsonArray("data");
 
-                images.clear();
-                for (int i = 0; i < 3; i++) {
-                    InstagramImage image = new InstagramImage();
-                    image.setMedium("https://scontent.cdninstagram.com/t51.2885-15/s320x320/e35/14553139_724557454361644_3057826159937978368_n.jpg?ig_cache_key=MTM5NDgxNjk4OTMxOTE5NTQ3MA%3D%3D.2");
-                    images.add(image);
+                if(datas.size() != 0){
+                    images.clear();
+                    for (int i = 0; i < datas.size(); i++) {
+                        InstagramImage image = new InstagramImage();
+                        JsonElement data = datas.get(i).getAsJsonObject().get("images");
+                        JsonElement lowResolution = data.getAsJsonObject().get("low_resolution");
+                        JsonElement thumbnail = data.getAsJsonObject().get("thumbnail");
+                        JsonElement standardResolution = data.getAsJsonObject().get("standard_resolution");
+                        String lowResolutionString = lowResolution.getAsJsonObject().get("url").toString().replaceAll("\"","");
+                        String standardResolutionString = standardResolution.getAsJsonObject().get("url").toString().replaceAll("\"","");
+                        String thumbnailString =thumbnail.getAsJsonObject().get("url").toString().replaceAll("\"","");
+                        image.setMedium(lowResolutionString);
+                        image.setBig(standardResolutionString);
+                        image.setThumbnail(thumbnailString);
+                        images.add(image);
+                    }
+                    mAdapter.notifyDataSetChanged();
                 }
-                mAdapter.notifyDataSetChanged();
 
             }
 
             @Override
-            public void onFailure(Call<InstagramHashTagResult> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
 
             }
         });

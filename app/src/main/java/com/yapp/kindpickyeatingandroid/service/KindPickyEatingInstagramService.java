@@ -1,7 +1,9 @@
 package com.yapp.kindpickyeatingandroid.service;
 
+import com.google.gson.JsonObject;
 import com.yapp.kindpickyeatingandroid.dto.InstagramHashTagResult;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -18,5 +20,5 @@ public interface KindPickyEatingInstagramService {
 //    Call<NaverSearchResult> searchHashtag(@Path("tag-name") String tagName);
 
     @GET("tags/{tag-name}/media/recent")
-    Call<InstagramHashTagResult> searchHashtagRecent(@Path("tag-name") String tagName);
+    Call<JsonObject> searchHashtagRecent(@Path("tag-name") String tagName);
 }
