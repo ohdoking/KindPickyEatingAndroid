@@ -1,8 +1,15 @@
 package com.yapp.kindpickyeatingandroid.fragment;
 
+import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,9 +17,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
 import com.yapp.kindpickyeatingandroid.R;
+import com.yapp.kindpickyeatingandroid.adapter.GalleryAdapter;
 import com.yapp.kindpickyeatingandroid.adapter.RecyclerAdapter;
+import com.yapp.kindpickyeatingandroid.dto.InstagramHashTagResult;
 import com.yapp.kindpickyeatingandroid.dto.InstagramHashTagResultItem;
+import com.yapp.kindpickyeatingandroid.dto.InstagramImage;
 import com.yapp.kindpickyeatingandroid.dto.RestaurantDetailDto;
 import com.yapp.kindpickyeatingandroid.network.KindPickyEatingInstagramClient;
 import com.yapp.kindpickyeatingandroid.service.KindPickyEatingInstagramService;
@@ -26,17 +37,24 @@ import retrofit2.Response;
 
 /**
  * Created by mac004 on 2016. 11. 29..
+ *
+ * 도움 받음 : http://www.androidhive.info/2016/04/android-glide-image-library-building-image-gallery-app/
  */
 public class InstagramInformatinFragment extends RecyclerViewFragment {
 
-    public static final String TAG = DemoRecyclerViewFragment.class.getSimpleName();
+    public static final String TAG = InstagramInformatinFragment.class.getSimpleName();
 
     private LinearLayoutManager mLayoutMgr;
+    private RecyclerView.LayoutManager mLayoutManager;
     public Context context;
     public RestaurantDetailDto restaurantDetailDto;
 
     public KindPickyEatingInstagramClient kindPickyEatingInstagramClient;
     public KindPickyEatingInstagramService kindPickyEatingInstagramService;
+
+    private ArrayList<InstagramImage> images;
+    private ProgressDialog pDialog;
+    private GalleryAdapter mAdapter;
 
     public static Fragment newInstance(int position, RestaurantDetailDto restaurantDetailDto, Context context) {
         InstagramInformatinFragment fragment = new InstagramInformatinFragment(context, restaurantDetailDto);
@@ -58,40 +76,98 @@ public class InstagramInformatinFragment extends RecyclerViewFragment {
                              Bundle savedInstanceState) {
         mPosition = getArguments().getInt(ARG_POSITION);
 
-        View view = inflater.inflate(R.layout.fragment_recycler_view, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        pDialog = new ProgressDialog(context);
+        images = new ArrayList<>();
+
+        View view = inflater.inflate(R.layout.fragment_instagram_view, container, false);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        RecyclerViewHeader header = (RecyclerViewHeader) view.findViewById(R.id.header);
+
         setupRecyclerView();
+        header.attachTo(mRecyclerView);
 
-        Call<InstagramHashTagResultItem> searchResult = kindPickyEatingInstagramService.searchHashtagRecent(restaurantDetailDto.getName());
+        Log.i("ohdoking-test","dodo");
+        Call<InstagramHashTagResult> searchResult = kindPickyEatingInstagramService.searchHashtagRecent(restaurantDetailDto.getName());
 
-        searchResult.enqueue(new Callback<InstagramHashTagResultItem>() {
+        searchResult.enqueue(new Callback<InstagramHashTagResult>() {
             @Override
-            public void onResponse(Call<InstagramHashTagResultItem> call, Response<InstagramHashTagResultItem> response) {
-                Response<InstagramHashTagResultItem> response2 = response;
+            public void onResponse(Call<InstagramHashTagResult> call, Response<InstagramHashTagResult> response) {
+                Response<InstagramHashTagResult> response2 = response;
+                Log.i("ohdoking-test",response2.errorBody().toString());
 
                 Log.i("ohdoking-test",response2.body().toString());
 
+                images.clear();
+                for (int i = 0; i < 3; i++) {
+                    InstagramImage image = new InstagramImage();
+                    image.setMedium("https://scontent.cdninstagram.com/t51.2885-15/s320x320/e35/14553139_724557454361644_3057826159937978368_n.jpg?ig_cache_key=MTM5NDgxNjk4OTMxOTE5NTQ3MA%3D%3D.2");
+                    images.add(image);
+                }
+                mAdapter.notifyDataSetChanged();
+
             }
 
             @Override
-            public void onFailure(Call<InstagramHashTagResultItem> call, Throwable t) {
+            public void onFailure(Call<InstagramHashTagResult> call, Throwable t) {
 
             }
         });
+
+
+
+
+
+        mRecyclerView.addOnItemTouchListener(new GalleryAdapter.RecyclerTouchListener(context, mRecyclerView, new GalleryAdapter.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Log.i("ohdoking-test","ccc"+position);
+                if(position == mAdapter.getItemCount()-1){
+                    Log.i("ohdoking-test","gogo insta");
+
+                    Uri uri = Uri.parse("http://instagram.com/explore/tags/"+restaurantDetailDto.getName());
+                    Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
+
+                    likeIng.setPackage("com.instagram.android");
+
+                    try {
+                        startActivity(likeIng);
+                    } catch (ActivityNotFoundException e) {
+                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                Uri.parse("http://instagram.com/explore/tags/"+restaurantDetailDto.getName())));
+                    }
+
+                }
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+
         return view;
     }
 
     @Override
     protected void setScrollOnLayoutManager(int scrollY) {
-        mLayoutMgr.scrollToPositionWithOffset(0, -scrollY);
+//        mLayoutManager.smoothScrollToPosition(mRecyclerView,State.);
     }
 
     private void setupRecyclerView() {
-        mLayoutMgr = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutMgr);
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter();
-        recyclerAdapter.addItems(createItemList());
-        mRecyclerView.setAdapter(recyclerAdapter);
+//        mLayoutMgr = new LinearLayoutManager(getActivity());
+//        mRecyclerView.setLayoutManager(mLayoutMgr);
+//        RecyclerAdapter recyclerAdapter = new RecyclerAdapter();
+//        recyclerAdapter.addItems(createItemList());
+//        mRecyclerView.setAdapter(recyclerAdapter);
+
+
+        mAdapter = new GalleryAdapter(context, images);
+
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, 2);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mAdapter);
 
         setRecyclerViewOnScrollListener();
     }
