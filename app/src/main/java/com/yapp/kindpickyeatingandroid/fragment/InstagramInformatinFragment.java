@@ -106,7 +106,14 @@ public class InstagramInformatinFragment extends RecyclerViewFragment {
 
                 if(datas.size() != 0){
                     images.clear();
-                    for (int i = 0; i < datas.size(); i++) {
+                    int size;
+                    if(datas.size() > 6){
+                        size = 6;
+                    }
+                    else{
+                        size = datas.size();
+                    }
+                    for (int i = 0; i < size; i++) {
                         InstagramImage image = new InstagramImage();
                         JsonElement data = datas.get(i).getAsJsonObject().get("images");
                         JsonElement lowResolution = data.getAsJsonObject().get("low_resolution");
