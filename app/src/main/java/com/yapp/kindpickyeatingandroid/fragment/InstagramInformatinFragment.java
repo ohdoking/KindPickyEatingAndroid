@@ -24,6 +24,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.yapp.kindpickyeatingandroid.R;
+import com.yapp.kindpickyeatingandroid.activity.InstagramDetailActivity;
 import com.yapp.kindpickyeatingandroid.adapter.GalleryAdapter;
 import com.yapp.kindpickyeatingandroid.adapter.RecyclerAdapter;
 import com.yapp.kindpickyeatingandroid.dto.InstagramHashTagResult;
@@ -180,6 +181,11 @@ public class InstagramInformatinFragment extends RecyclerViewFragment {
                                 Uri.parse("http://instagram.com/explore/tags/"+restaurantDetailDto.getName())));
                     }
 
+                }
+                else{
+                    Log.i("click","ohking");
+                    Intent i = new Intent(getActivity(), InstagramDetailActivity.class);
+                    startActivity(i);
                 }
             }
 

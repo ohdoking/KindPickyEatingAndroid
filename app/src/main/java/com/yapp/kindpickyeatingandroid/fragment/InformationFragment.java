@@ -17,7 +17,7 @@ import com.yapp.kindpickyeatingandroid.adapter.NaverSearchResultListViewAdapter;
 import com.yapp.kindpickyeatingandroid.dto.NaverSearchResult;
 import com.yapp.kindpickyeatingandroid.dto.NaverSearchResultItem;
 import com.yapp.kindpickyeatingandroid.dto.RestaurantDetailDto;
-import com.yapp.kindpickyeatingandroid.network.KindPickyEatingNaverClient;
+import com.yapp.kindpickyeatingandroid.network.KIndPickyEatingNaverClient;
 import com.yapp.kindpickyeatingandroid.service.KindPickyEatingNaverService;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class InformationFragment extends ListViewFragment {
     public RestaurantDetailDto restaurantDetailDto;
     public NaverSearchResultListViewAdapter naverSearchResultListViewAdapter;
 
-    public KindPickyEatingNaverClient kindPickyEatingNaverClient;
+    public KIndPickyEatingNaverClient kindPickyEatingNaverClient;
     public KindPickyEatingNaverService kindPickyEactingNaverService;
 
     public static Fragment newInstance(int position, RestaurantDetailDto restaurantDetailDto, Context context) {
@@ -53,7 +53,7 @@ public class InformationFragment extends ListViewFragment {
     public InformationFragment(Context context, RestaurantDetailDto restaurantDetailDto) {
         this.context = context;
         this.restaurantDetailDto = restaurantDetailDto;
-        kindPickyEatingNaverClient = new KindPickyEatingNaverClient(context);
+        kindPickyEatingNaverClient = new KIndPickyEatingNaverClient(context);
         kindPickyEactingNaverService = kindPickyEatingNaverClient.getKindPickyEactingService();
     }
 
