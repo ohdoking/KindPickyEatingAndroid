@@ -17,6 +17,7 @@ public class InstagramDetailActivity extends AppCompatActivity {
     private TextView instaId;
     private ImageView instaApp;
     private TextView instaTag;
+    private String tag="";
 
 
     @Override
@@ -34,14 +35,17 @@ public class InstagramDetailActivity extends AppCompatActivity {
         Glide.with(getApplicationContext()).load(instagramDetailData.getMedium()).into(instaPicture);
 
         instaId = (TextView)findViewById(R.id.instaId);
-        instaId.setText(instagramDetailData.getAuthor());
+        instaId.setText(instagramDetailData.getAuthor().replace("\"",""));
 
         instaApp = (ImageView)findViewById(R.id.instaApp);
         instaApp.setImageResource(R.drawable.bedge);
 
-        
+
         instaTag = (TextView)findViewById(R.id.instaTag);
-        instaTag.setText("#쌀롱딜리셔스 #병아리콩샐러드 #vegan #합정동 #합정맛집 #너무맛있어 #비건 #분위기깡패 #채식주의 #채식");
+        for(int i = 0; i < instagramDetailData.getTags().size(); i++) {
+            tag = tag + ("#" + instagramDetailData.getTags().get(i) + " ");
+        }
+        instaTag.setText(tag);
     }
 
 }
