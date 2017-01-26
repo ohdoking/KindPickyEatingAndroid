@@ -2,15 +2,10 @@ package com.yapp.kindpickyeatingandroid.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.JsonElement;
 import com.yapp.kindpickyeatingandroid.R;
-import com.yapp.kindpickyeatingandroid.dto.InstagramImage;
-
-import java.util.ArrayList;
 
 public class InstagramDetailActivity extends AppCompatActivity {
     private ImageView instaPicture;

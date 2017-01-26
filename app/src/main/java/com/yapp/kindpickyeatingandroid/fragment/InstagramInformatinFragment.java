@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,23 +22,20 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.yapp.kindpickyeatingandroid.R;
 import com.yapp.kindpickyeatingandroid.activity.InstagramDetailActivity;
 import com.yapp.kindpickyeatingandroid.adapter.GalleryAdapter;
-import com.yapp.kindpickyeatingandroid.adapter.RecyclerAdapter;
-import com.yapp.kindpickyeatingandroid.dto.InstagramHashTagResult;
-import com.yapp.kindpickyeatingandroid.dto.InstagramHashTagResultItem;
-import com.yapp.kindpickyeatingandroid.dto.InstagramImage;
+import com.yapp.kindpickyeatingandroid.common.KindPickyEatingConstant;
+import com.yapp.kindpickyeatingandroid.dto.InstagramDetailData;
 import com.yapp.kindpickyeatingandroid.dto.RestaurantDetailDto;
 import com.yapp.kindpickyeatingandroid.network.KindPickyEatingInstagramClient;
 import com.yapp.kindpickyeatingandroid.service.KindPickyEatingInstagramService;
 
-import org.json.JSONObject;
-
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,7 +57,7 @@ public class InstagramInformatinFragment extends RecyclerViewFragment {
     public KindPickyEatingInstagramClient kindPickyEatingInstagramClient;
     public KindPickyEatingInstagramService kindPickyEatingInstagramService;
 
-    private ArrayList<InstagramImage> images;
+    private ArrayList<InstagramDetailData> images;
     private ProgressDialog pDialog;
     private GalleryAdapter mAdapter;
 
@@ -124,8 +120,11 @@ public class InstagramInformatinFragment extends RecyclerViewFragment {
                         size = datas.size();
                     }
                     for (int i = 0; i < size; i++) {
-                        InstagramImage image = new InstagramImage();
+                        InstagramDetailData image = new InstagramDetailData();
                         JsonElement data = datas.get(i).getAsJsonObject().get("images");
+                        JsonElement tags = datas.get(i).getAsJsonObject().get("tags");
+                        JsonElement user = datas.get(i).getAsJsonObject().get("user");
+                        String userName = user.getAsJsonObject().get("username").toString();
                         JsonElement lowResolution = data.getAsJsonObject().get("low_resolution");
                         JsonElement thumbnail = data.getAsJsonObject().get("thumbnail");
                         JsonElement standardResolution = data.getAsJsonObject().get("standard_resolution");
@@ -135,6 +134,12 @@ public class InstagramInformatinFragment extends RecyclerViewFragment {
                         image.setMedium(lowResolutionString);
                         image.setBig(standardResolutionString);
                         image.setThumbnail(thumbnailString);
+                        image.setAuthor(userName);
+
+                        Type listType = new TypeToken<ArrayList<String>>() {}.getType();
+                        ArrayList<String> tagsList = new Gson().fromJson(tags, listType);
+
+                        image.setTags(tagsList);
                         images.add(image);
                     }
                     mAdapter.notifyDataSetChanged();
@@ -185,6 +190,7 @@ public class InstagramInformatinFragment extends RecyclerViewFragment {
                 else{
                     Log.i("click","ohking");
                     Intent i = new Intent(getActivity(), InstagramDetailActivity.class);
+                    i.putExtra(KindPickyEatingConstant.INSTADETAILDATA,images.get(position));
                     startActivity(i);
                 }
             }

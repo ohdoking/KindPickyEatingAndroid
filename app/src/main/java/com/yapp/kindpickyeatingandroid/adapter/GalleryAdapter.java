@@ -1,7 +1,6 @@
 package com.yapp.kindpickyeatingandroid.adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -13,7 +12,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.yapp.kindpickyeatingandroid.R;
-import com.yapp.kindpickyeatingandroid.dto.InstagramImage;
+import com.yapp.kindpickyeatingandroid.dto.InstagramDetailData;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHolder> {
  
-    private List<InstagramImage> images;
+    private List<InstagramDetailData> images;
     private Context mContext;
 
     public boolean isEmpty() {
@@ -39,7 +38,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     }
  
  
-    public GalleryAdapter(Context context, List<InstagramImage> images) {
+    public GalleryAdapter(Context context, List<InstagramDetailData> images) {
         mContext = context;
         this.images = images;
     }
@@ -54,7 +53,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        InstagramImage image = images.get(position);
+        InstagramDetailData image = images.get(position);
 
         if(position == getItemCount()-1){
             Glide.with(mContext).load(image.getMedium())
