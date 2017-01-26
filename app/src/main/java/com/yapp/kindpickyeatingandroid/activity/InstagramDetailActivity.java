@@ -17,6 +17,9 @@ public class InstagramDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_instagram_detail);
+
         instaPicture = (ImageView)findViewById(R.id.instaPicture);
         instaPicture.setImageResource(R.drawable.scenery);
 
