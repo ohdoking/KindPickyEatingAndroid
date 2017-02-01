@@ -69,13 +69,16 @@ public class FirstScrollViewFragment extends ScrollViewFragment implements OnMap
         this.restaurantDetailDto = restaurantDetailDto;
         View view = inflater.inflate(R.layout.fragment_first_scroll_view, container, false);
         mScrollView = (NotifyingScrollView) view.findViewById(R.id.scrollview);
-        TextView restaurantMenuList1 = (TextView) view.findViewById(R.id.restaurantMenuList1);
-        TextView restaurantMenuList2 = (TextView) view.findViewById(R.id.restaurantMenuList2);
-        TextView restaurantMenuList3 = (TextView) view.findViewById(R.id.restaurantMenuList3);
+        TextView restaurantMenuList = (TextView) view.findViewById(R.id.restaurantMenuList);
+        TextView restaurantTel = (TextView) view.findViewById(R.id.restaurantTel);
+        TextView restaurantAddress = (TextView) view.findViewById(R.id.restaurantAddress);
+        TextView restaurantPrice = (TextView) view.findViewById(R.id.restaurantPrice);
 
-        restaurantMenuList1.setText(restaurantDetailDto.getMenu1() );
-        restaurantMenuList2.setText(restaurantDetailDto.getMenu2() );
-        restaurantMenuList3.setText(restaurantDetailDto.getMenu3() );
+        restaurantAddress.setText(restaurantDetailDto.getAddress());
+        restaurantPrice.setText(restaurantDetailDto.getPrice());
+        restaurantTel.setText(restaurantDetailDto.getTel());
+
+        restaurantMenuList.setText(restaurantDetailDto.getMenu1() + ", " + restaurantDetailDto.getMenu2() + ", " + restaurantDetailDto.getMenu3());
 
         FragmentManager fm = getChildFragmentManager();
         fragment = (SupportMapFragment) fm.findFragmentById(R.id.detailMap);
