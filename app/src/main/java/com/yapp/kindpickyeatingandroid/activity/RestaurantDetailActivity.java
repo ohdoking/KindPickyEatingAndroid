@@ -39,6 +39,8 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
 
     private ImageView restaurantImage;
     private TextView restaurantName;
+    private TextView restaurantTel;
+    private TextView restaurantAddress;
     private SlidingTabLayout mNavigBar;
     public RestaurantDetailDto restaurantDetailDto;
     public KindPickyEatingServerClient kindPickyEatingClient;
@@ -60,6 +62,8 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
         mNavigBar = (SlidingTabLayout) findViewById(R.id.navig_tab);
         restaurantImage = (ImageView) findViewById(R.id.restaurantImage);
         restaurantName = (TextView) findViewById(R.id.restaurantTitle);
+        restaurantAddress =(TextView) findViewById(R.id.restaurantAddress);
+        restaurantTel=(TextView)findViewById(R.id.restaurantTel);
         mHeader = findViewById(R.id.header);
 
         Intent in = getIntent();
@@ -85,6 +89,8 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
             public void onResponse(Call<RestaurantDetailDto> call, Response<RestaurantDetailDto> response) {
                 Log.i("test1", response.body().getName());
                 restaurantName.setText(response.body().getName());
+                restaurantTel.setText(response.body().getTel());
+                restaurantAddress.setText(response.body().getAddress());
                 Glide.with(getApplicationContext()).load(response.body().getImage()).into(restaurantImage);
                 setupAdapter(response.body());
 
@@ -265,13 +271,13 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "식당 정보";
+                    return "메뉴 및 위치";
 
                 case 1:
-                    return "네이버 블로그 리뷰";
+                    return "블로그 리뷰";
 
                 case 2:
-                    return "인스타그램";
+                    return "인스타 리뷰";
 
                 default:
                     throw new IllegalArgumentException("wrong position for the fragment in vehicle page");
