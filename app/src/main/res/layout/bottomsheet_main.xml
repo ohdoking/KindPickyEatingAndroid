@@ -8,24 +8,6 @@
 
     app:layout_behavior="@string/bottom_sheet_behavior">
 
-    <RadioButton
-        android:text="채식음식"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/radioButton" />
-
-    <RadioButton
-        android:text="할랄음식"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton2"
-        android:layout_alignBaseline="@+id/radioButton"
-        android:layout_alignBottom="@+id/radioButton"
-        android:layout_toEndOf="@+id/radioButton"
-        android:layout_toRightOf="@+id/radioButton" />
-
     <TextView
         android:id="@+id/heading"
         android:layout_width="wrap_content"
@@ -38,24 +20,53 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true" />
 
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="43dp"
+        android:layout_below="@+id/heading"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
     <RadioButton
-        android:text="사찰음식"
+        android:text="채식음식"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/radioButton3"
-        android:layout_alignBaseline="@+id/radioButton2"
-        android:layout_alignBottom="@+id/radioButton2"
-        android:layout_toEndOf="@+id/radioButton2"
-        android:layout_toRightOf="@+id/radioButton2" />
+        android:checked="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/chaesik" />
 
     <RadioButton
+        android:text="할랄음식"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/radioButton4"
-        android:layout_alignBaseline="@+id/radioButton3"
-        android:layout_alignBottom="@+id/radioButton3"
-        android:layout_toEndOf="@+id/radioButton3"
-        android:text="모두보기"
-        android:layout_toRightOf="@+id/radioButton3" />
+        android:id="@+id/hallal"
+        android:layout_alignBaseline="@+id/chaesik"
+        android:layout_alignBottom="@+id/chaesik"
+        android:layout_toEndOf="@+id/chaesik"
+        android:layout_toRightOf="@+id/chaesik" />
+        <RadioButton
+            android:text="사찰음식"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sachal"
+            android:layout_alignBaseline="@+id/hallal"
+            android:layout_alignBottom="@+id/hallal"
+            android:layout_toEndOf="@+id/hallal"
+            android:layout_toRightOf="@+id/hallal" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/all"
+            android:layout_alignBaseline="@+id/sachal"
+            android:layout_alignBottom="@+id/sachal"
+            android:layout_toEndOf="@+id/sachal"
+            android:text="모두보기"
+            android:layout_toRightOf="@+id/sachal" />
+    </RadioGroup>
+
 
 </RelativeLayout>
