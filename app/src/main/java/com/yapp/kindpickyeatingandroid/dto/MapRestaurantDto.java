@@ -1,10 +1,19 @@
 package com.yapp.kindpickyeatingandroid.dto;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by user on 2016-08-17.
  */
 public class MapRestaurantDto {
-    long id, grade;
+
+    long id;
+
+    @SerializedName("category_id")
+    @Expose
+    long categoryId;
+
     String name, thumb, address;
     double latatitue, longitute;
 
@@ -16,12 +25,12 @@ public class MapRestaurantDto {
         this.id = id;
     }
 
-    public long getGrade() {
-        return grade;
+    public long getCategoryId() {
+        return categoryId;
     }
 
-    public void setGrade(long grade) {
-        this.grade = grade;
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getName() {
