@@ -81,7 +81,7 @@ public class PIClient {
 
         MapRestaurantDto s = new MapRestaurantDto();
         s.setId(j.getLong("id"));
-        s.setGrade(j.getLong("grade"));
+        s.setCategoryId(j.getLong("category_id"));
         s.setName(j.getString("name"));
         s.setThumb(j.getString("thumb"));
         s.setAddress(j.getString("address"));

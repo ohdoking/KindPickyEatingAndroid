@@ -4,6 +4,8 @@ import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -57,12 +61,20 @@ public class MapActivity extends BaseAppCompatActivity implements OnMapReadyCall
     List<MapRestaurantDto> smp2;
     KindPickyEatingServerService kindPickyEactingService;
 
+    BottomSheetBehavior bottomSheetBehavior;
+    ImageButton open;
+    TextView heading;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initActionbar();
         setContentView(R.layout.activity_map);
+
+        View bottomSheet = findViewById(R.id.bottom_sheet);
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+//      bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        setup();
 
         KindPickyEatingServerClient kindPickyEatingClient = new KindPickyEatingServerClient(getApplicationContext());
         kindPickyEactingService = kindPickyEatingClient.getKindPickyEactingService();
@@ -78,6 +90,50 @@ public class MapActivity extends BaseAppCompatActivity implements OnMapReadyCall
 
     }
 
+    private void setup() {
+        open = (ImageButton) findViewById(R.id.action_bar_back);
+
+        heading = (TextView) findViewById(R.id.heading);
+
+//        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        //Handling movement of bottom sheets from buttons
+
+
+//        collapse.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//                heading.setText("Collapsed");
+//                heading.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.colorAccent));
+//            }
+//        });
+//
+//        hide.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+//            }
+//        });
+
+        //Handling movement of bottom sheets from sliding
+//        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+//            @Override
+//            public void onStateChanged(View bottomSheet, int newState) {
+//                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+//                    heading.setText("Collapsed");
+//                    heading.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.colorAccent));
+//                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+//                    heading.setText("Welcome");
+//                    heading.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary));
+//                }
+//            }
+//
+//            @Override
+//            public void onSlide(View bottomSheet, float slideOffset) {
+//
+//            }
+//        });
+    }
     private void initActionbar(){
 
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -114,7 +170,24 @@ public class MapActivity extends BaseAppCompatActivity implements OnMapReadyCall
         filterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"필터창",Toast.LENGTH_LONG).show();
+                open.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED){
+                            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                            //heading.setText("필터를 설정해주세요(중복 선택 가능)");
+                            heading.setTextColor(ContextCompat.getColor(MapActivity.this, R.color.colorPrimary));
+//                finish();
+                        }
+                        else{
+                            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                            // heading.setText("Collapsed");
+//                    heading.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.colorAccent));
+//                    finish();
+                        }
+                    }
+                });
+//                Toast.makeText(getApplicationContext(),"필터창",Toast.LENGTH_LONG).show();
             }
         });
 
