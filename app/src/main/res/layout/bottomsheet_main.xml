@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="#d3d3d3"
+    app:behavior_hideable="true"
+
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="필터를 설정해주세요(중복 선택 가능)"
+        android:textSize="18sp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
+
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_below="@+id/heading"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp">
+    <RadioButton
+        android:text="채식음식"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/chaesik" />
+
+    <RadioButton
+        android:text="할랄음식"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/hallal"
+        android:layout_alignBaseline="@+id/chaesik"
+        android:layout_alignBottom="@+id/chaesik"
+        android:layout_toEndOf="@+id/chaesik"
+        android:layout_toRightOf="@+id/chaesik" />
+        <RadioButton
+            android:text="사찰음식"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sachal"
+            android:layout_alignBaseline="@+id/hallal"
+            android:layout_alignBottom="@+id/hallal"
+            android:layout_toEndOf="@+id/hallal"
+            android:layout_toRightOf="@+id/hallal" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/all"
+            android:layout_alignBaseline="@+id/sachal"
+            android:layout_alignBottom="@+id/sachal"
+            android:layout_toEndOf="@+id/sachal"
+            android:text="모두보기"
+            android:layout_toRightOf="@+id/sachal" />
+    </RadioGroup>
+
+    <Button
+        android:text="적용하기"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/radioGroup"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:id="@+id/filter_apply" />
+
+
+</RelativeLayout>
