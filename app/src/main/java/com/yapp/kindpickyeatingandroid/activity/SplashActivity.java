@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 import com.yapp.kindpickyeatingandroid.R;
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
