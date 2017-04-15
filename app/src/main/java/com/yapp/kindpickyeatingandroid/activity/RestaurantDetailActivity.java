@@ -121,8 +121,8 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
 
             }
         });
-
-        ImageButton showInfo = (ImageButton) view.findViewById(R.id.showInfo);
+/*
+       ImageButton showInfo = (ImageButton) view.findViewById(R.id.showInfo);
 
         //팝업 정보 노출
         showInfo.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +173,7 @@ public class RestaurantDetailActivity extends ParallaxViewPagerBaseActivity {
 
 
             }
-        });
+        });*/
 
     }
 
