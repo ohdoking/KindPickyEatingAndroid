@@ -16,7 +16,7 @@ import com.yapp.kindpickyeatingandroid.util.ScrollTabHolder;
 /**
  * Created by desmond on 1/6/15.
  */
-public abstract class ParallaxViewPagerBaseActivity extends AppCompatActivity implements ScrollTabHolder {
+public abstract class ParallaxViewPagerBaseActivity extends BaseAppCompatActivity implements ScrollTabHolder {
 
     public static final String TAG = ParallaxViewPagerBaseActivity.class.getSimpleName();
 

@@ -11,7 +11,7 @@ import com.yapp.kindpickyeatingandroid.dto.Item;
 
 import java.util.ArrayList;
 
-public class FavoriteActivity extends Activity {
+public class FavoriteActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);

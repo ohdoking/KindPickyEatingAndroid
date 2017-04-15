@@ -30,7 +30,7 @@ import java.io.IOException;
 /**
  * Created by user on 2016-08-19.
  */
-public class JoinUs extends Activity {
+public class JoinUs extends BaseActivity {
     private EditText editEml;
     private EditText editPwd;
     private EditText editNm;
