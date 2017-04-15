@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.yapp.kindpickyeatingandroid.R;
 
-public class MyProfileActivity extends BaseAppCompatActivity {
+public class MyProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

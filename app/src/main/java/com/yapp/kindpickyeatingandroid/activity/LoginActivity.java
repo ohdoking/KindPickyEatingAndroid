@@ -21,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends Activity {
     private ImageButton btnLGN;
     private ImageButton btnJN;
     ImageButton btnJNFb;

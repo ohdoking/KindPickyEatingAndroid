@@ -18,13 +18,13 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="360dp"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/imageview_height"
             android:orientation="vertical">
             <ImageView
                 android:id="@+id/restaurantImage"
-                android:layout_width="340dp"
-                android:layout_height="250dp"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
                 android:src="@drawable/scenery"
                 android:scaleType="centerCrop"/>
 
@@ -39,10 +39,8 @@
                     android:layout_width="match_parent"
                     android:layout_weight="0.75"
                     android:layout_height="40dp"
-                    android:layout_marginTop="23dp"
-                    android:layout_marginBottom="25dp"
-                    android:layout_marginLeft="110dp"
-                    android:textSize="17dp"
+                    android:layout_margin="30dp"
+                    android:textSize="30dp"
                     android:textStyle="bold"
                     android:textColor="#000"
                     android:text="음식점 이름"/>
@@ -55,17 +53,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
-                        android:layout_marginLeft="37dp"
-                        android:layout_marginRight="25dp"
-                        android:layout_marginBottom="12dp"
-                        android:textSize="12dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:text="상세주소"
                         android:textStyle="bold"/>
                     <TextView
                         android:id="@+id/restaurantAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
-                        android:textSize="12dp"
+                        android:textSize="15dp"
                         android:marqueeRepeatLimit="marquee_forever"/>
                 </LinearLayout>
                 <LinearLayout
@@ -78,15 +74,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:textStyle="bold"
-                        android:textSize="12dp"
-                        android:layout_marginLeft="37dp"
-                        android:layout_marginRight="25dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:text="전화번호"/>
                     <TextView
                         android:id="@+id/restaurantTel"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
-                        android:textSize="12dp"
+                        android:textSize="15dp"
                         android:text="02-336-3613"/>
                 </LinearLayout>
 

@@ -27,7 +27,7 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MenuActivity extends BaseAppCompatActivity implements CalendarPickerController {
+public class MenuActivity extends AppCompatActivity implements CalendarPickerController {
 
     private static final String LOG_TAG = MenuActivity.class.getSimpleName();
 

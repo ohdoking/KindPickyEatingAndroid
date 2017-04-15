@@ -9,7 +9,7 @@ import com.yapp.kindpickyeatingandroid.R;
 import com.yapp.kindpickyeatingandroid.adapter.SimpleFragmentAdapter;
 import com.yapp.kindpickyeatingandroid.fragment.SimpleFragment;
 
-public class TutorialActivity extends BaseAppCompatActivity {
+public class TutorialActivity extends AppCompatActivity {
 
     private SimpleFragmentAdapter mSimpleFragmentAdapter;
     private ViewPager mViewPager;

@@ -12,7 +12,7 @@ import com.yapp.kindpickyeatingandroid.R;
 import com.yapp.kindpickyeatingandroid.common.KindPickyEatingConstant;
 import com.yapp.kindpickyeatingandroid.dto.InstagramDetailData;
 
-public class InstagramDetailActivity extends BaseAppCompatActivity {
+public class InstagramDetailActivity extends AppCompatActivity {
     private ImageView instaPicture;
     private TextView instaId;
     private ImageView instaApp;

@@ -39,7 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MapActivity extends BaseAppCompatActivity implements OnMapReadyCallback,GoogleMap.OnCameraChangeListener,
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnCameraChangeListener,
         GoogleMap.OnMapClickListener, GoogleMap.OnCameraMoveListener,
         GoogleMap.OnInfoWindowClickListener, SearchView.OnQueryTextListener {
 

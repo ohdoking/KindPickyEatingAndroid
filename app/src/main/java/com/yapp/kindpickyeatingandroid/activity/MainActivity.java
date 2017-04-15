@@ -20,7 +20,7 @@ import com.yapp.kindpickyeatingandroid.fragment.TwoFragment;
 import com.yapp.kindpickyeatingandroid.util.GpsInfo;
 
 
-public class MainActivity extends BaseAppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     final String TAG = "MainActivity";

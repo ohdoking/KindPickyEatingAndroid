@@ -27,7 +27,7 @@ import retrofit2.Response;
 /**
  * Created by user on 2016-08-19.
  */
-public class JoinUsCk extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
+public class JoinUsCk extends Activity implements RadioGroup.OnCheckedChangeListener {
     private RadioGroup rgVeg1,rgVeg2;
     private RadioGroup rgRel;
     private JoinDto m;
